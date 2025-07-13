@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import styles from "./total-and-order-submit-btn.module.css";
 import {Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import Modal from '../modal/modal';
 import OrderDetails from "../modal/order-details";
 
 const TotalAndOrderSubmitBtn = ( {total} ) => {
@@ -26,7 +27,12 @@ const TotalAndOrderSubmitBtn = ( {total} ) => {
                 Оформить заказ
             </Button>
             {modalOrder && (
-                <OrderDetails handleCloseModal={handleCloseModal} />
+                <Modal
+                    title={""}
+                    onClose={handleCloseModal}
+                >
+                    <OrderDetails />
+                </Modal>
             )}
         </div>
     )

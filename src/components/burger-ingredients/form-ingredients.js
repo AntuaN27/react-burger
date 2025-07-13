@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styles from './form-ingredient.module.css';
 import Ingredient from "./ingredient";
 import IngredientDetails from "../modal/ingredient-details";
+import Modal from '../modal/modal';
 
 const FormIngredients = ( {data, countsIngredients, onAdd, bunRef, sauceRef, mainRef} ) => {
     const [modalIngredient, setModalIngredient] = useState(null);
@@ -45,7 +46,12 @@ const FormIngredients = ( {data, countsIngredients, onAdd, bunRef, sauceRef, mai
             <BlockWrapper name={"Начинки"} data={main} innerRef={mainRef} />
 
             {modalIngredient && (
-                <IngredientDetails handleCloseModal={handleCloseModal} ingredient={modalIngredient} />
+                <Modal
+                    title={"Детали ингредиента"}
+                    onClose={handleCloseModal}
+                >
+                    <IngredientDetails ingredient={modalIngredient} />
+                </Modal>
             )}
         </div>
     )

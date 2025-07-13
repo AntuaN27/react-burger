@@ -1,10 +1,9 @@
 import styles from "./ingredient-details.module.css";
-import Modal from "./modal";
 import React from "react";
 
-const IngredientDetails = ({ handleCloseModal, ingredient }) => {
+const IngredientDetails = ({ ingredient }) => {
     return(
-        <Modal onClose={handleCloseModal} title={"Детали ингредиента"}>
+        <>
             <img className={styles.modal_image} src={ingredient.image} alt={ingredient.name} />
             <p className={`${styles.modal_name_ingredient} text text_type_main-medium`}>{ingredient.name}</p>
             <div className={`${styles.modal_ingredient_description} text text_type_main-default text_color_inactive`}>
@@ -25,7 +24,7 @@ const IngredientDetails = ({ handleCloseModal, ingredient }) => {
                     <p className="text text_type_digits-default">{ingredient.carbohydrates}</p>
                 </div>
             </div>
-        </Modal>
+        </>
     )
 }
 

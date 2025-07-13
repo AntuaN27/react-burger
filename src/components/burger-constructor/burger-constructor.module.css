@@ -12,6 +12,13 @@
     position: relative;
 }
 
+.burger_constructor_bun {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 38px;
+}
+
 .burger_constructor_fillings {
     display: flex;
     flex-direction: column;

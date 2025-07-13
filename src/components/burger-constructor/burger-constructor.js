@@ -21,7 +21,7 @@ const BurgerConstructor = ( {ingredients, onDelete} ) => {
             <div className={styles.burger_constructor_form}>
                 {/* Верхняя булка */}
                 {bun && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginLeft: '38px'}}>
+                    <div className={styles.burger_constructor_bun}>
                         <ConstructorElement
                             type="top"
                             isLocked={true}
@@ -49,7 +49,7 @@ const BurgerConstructor = ( {ingredients, onDelete} ) => {
 
                 {/*Нижняя булка*/}
                 {bun && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginLeft: '38px' }}>
+                    <div className={styles.burger_constructor_bun}>
                         <ConstructorElement
                             type="bottom"
                             isLocked={true}
