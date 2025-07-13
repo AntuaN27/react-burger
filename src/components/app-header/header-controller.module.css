@@ -1,0 +1,12 @@
+.header_btn_wrapper {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    gap: 8px;
+    box-sizing: border-box;
+    padding: 16px 20px;
+    color: white;
+}

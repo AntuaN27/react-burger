@@ -1,0 +1,6 @@
+.main {
+    display: flex;
+    margin: 0 18%; /* Деление из figma 340px/1920px отступ слева на общую ширину экрана макета */
+    gap: 40px;
+    height: calc(100vh - 88px);
+}

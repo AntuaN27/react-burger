@@ -1,0 +1,32 @@
+.modal_name_ingredient {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.modal_ingredient_description {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-top: 32px;
+    box-sizing: border-box;
+    padding: 0 100px;
+}
+
+/* Дефолтный размер изображения слишком большой и отличается от макета*/
+.modal_image {
+    display: block;
+    width: 75%;
+    height: 75%;
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+.ingredient_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

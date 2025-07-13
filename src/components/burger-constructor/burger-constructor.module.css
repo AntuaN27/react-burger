@@ -1,0 +1,27 @@
+.burger_constructor {
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+}
+
+.burger_constructor_form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 60vh; /* Для корректного отображения*/
+    position: relative;
+}
+
+.burger_constructor_fillings {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 50%; /* Для корректного отображения*/
+    overflow-y: auto;
+}
+
+.constructor_element_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}

@@ -1,0 +1,22 @@
+.app_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1C1C21;
+    box-sizing: border-box;
+    padding: 16px;
+    height: 88px;
+}
+
+.constructor_and_list_controllers {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+    margin-left: 16%; /* Деление из figma 320px/1920px отступ слева на общую ширину экрана макета */
+}
+
+.profile_controller {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 16%;
+}
