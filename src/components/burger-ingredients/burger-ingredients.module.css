@@ -1,0 +1,10 @@
+.burger_ingredients {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+}
+
+.tab {
+    display: flex;
+    margin-top: 20px;
+}

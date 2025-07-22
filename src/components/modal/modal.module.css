@@ -1,0 +1,33 @@
+.modal {
+    display: flex;
+    flex-direction: column;
+    width: 720px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    overflow: hidden;
+    position: fixed;
+    background: #1C1C21;
+    box-sizing: border-box; /* Отступы внутри модального окна */
+    padding: 40px 40px 60px 40px;
+}
+
+.modal_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 36px;
+}
+
+.close_btn {
+    all: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close_btn:hover {
+    opacity: 0.6;
+    transform: scale(1.1);
+}

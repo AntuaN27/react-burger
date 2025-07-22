@@ -1,0 +1,26 @@
+.order_details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.order_number {
+    margin-top: 16px;
+}
+
+.order_identifier {
+    margin-top: 32px;
+}
+
+.order_icon {
+    margin-top: 60px;
+}
+
+.order_status {
+    margin-top: 60px;
+}
+
+.order_description {
+    margin-top: 8px;
+}

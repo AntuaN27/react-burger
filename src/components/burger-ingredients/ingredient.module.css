@@ -1,0 +1,18 @@
+.price_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 4px 0;
+}
+
+.image_wrapper {
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 0 16px;
+}
+
+.name {
+    all: unset;
+    cursor: pointer;
+}

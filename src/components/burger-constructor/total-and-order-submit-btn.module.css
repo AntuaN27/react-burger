@@ -1,0 +1,12 @@
+.order_wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 40px;
+    gap: 40px;
+}
+
+.price_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
