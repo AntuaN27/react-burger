@@ -1,12 +1,18 @@
-import React, {useRef} from 'react';
+import React, {use, useRef} from 'react';
+import { useDispatch } from "react-redux";
 import styles from './burger-ingredients.module.css'
 import TabIngredients from "./tab-ingredients";
 import FormIngredients from './form-ingredients'
+import { getBurgerIngredients } from "../../services/reducers/burger_ingredients";
 
-const BurgerIngredients = ( {data, countsIngredients, onAdd} ) => {
+// const BurgerIngredients = ( {data, countsIngredients, onAdd} ) => {
+const BurgerIngredients = () => {
+    const dispatch = useDispatch();
     const bunRef = useRef(null);
     const sauceRef = useRef(null);
     const mainRef = useRef(null);
+
+    dispatch(getBurgerIngredients()); // вызов API получение ингредиентов
 
     const handleTabClick = (type) => {
         const refs = {
@@ -24,9 +30,9 @@ const BurgerIngredients = ( {data, countsIngredients, onAdd} ) => {
                 <TabIngredients onTabClick={handleTabClick} />
             </div>
             <FormIngredients
-                data={data}
-                countsIngredients={countsIngredients}
-                onAdd={onAdd}
+                // data={data}
+                // countsIngredients={countsIngredients}
+                // onAdd={onAdd}
                 bunRef={bunRef}
                 sauceRef={sauceRef}
                 mainRef={mainRef}

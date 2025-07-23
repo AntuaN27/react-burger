@@ -1,19 +1,29 @@
-import React, {useState} from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./total-and-order-submit-btn.module.css";
 import {Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from '../modal/modal';
 import OrderDetails from "../modal/order-details";
+import { UNSET_MODAL_ORDER } from "../../services/actions/current_order";
+import {orderValidation, postOrder} from "../../services/reducers/current_order";
 
 const TotalAndOrderSubmitBtn = ( {total} ) => {
-    const [modalOrder, setModalOrder] = useState(false)
+    const dispatch = useDispatch();
+    const modalOrder = useSelector(store => store.current_order.current_order);
+    const burgerIngredients = useSelector(store => store.burger_constructor.burger_ingredients);
+    const burgerIngredientsIds = burgerIngredients.map(ingredient => ingredient._id);
 
     const handleOpenModal = () => {
-        setModalOrder(true);
+        dispatch(orderValidation({ burgerIngredientsIds }));
     };
 
     const handleCloseModal = () => {
-        setModalOrder(false);
+        dispatch({
+            type: UNSET_MODAL_ORDER,
+        })
     };
+
+    console.log("modalOrder: ", modalOrder)
 
     return (
         <div className={styles.order_wrapper}>
@@ -26,7 +36,7 @@ const TotalAndOrderSubmitBtn = ( {total} ) => {
             <Button htmlType="button" type="primary" size="large" onClick={() => handleOpenModal()}>
                 Оформить заказ
             </Button>
-            {modalOrder && (
+            {modalOrder.length > 0 && (
                 <Modal
                     title={""}
                     onClose={handleCloseModal}

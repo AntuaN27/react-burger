@@ -1,9 +1,14 @@
 import React from 'react';
+import { useSelector, useDispatch } from "react-redux";
 import styles from './burger-constructor.module.css'
-import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import TotalAndOrderSubmitBtn from "./total-and-order-submit-btn";
+import {REMOVE_CONSTRUCTOR_INGREDIENT} from "../../services/actions/burger_constructor";
 
-const BurgerConstructor = ( {ingredients, onDelete} ) => {
+// const BurgerConstructor = ( {ingredients, onDelete} ) => {
+const BurgerConstructor = () => {
+    const ingredients = useSelector(store => store.burger_constructor.burger_ingredients);
+    const dispatch = useDispatch();
     const total = ingredients.reduce((sum, item) => sum + item.price, 0)
     const bun = ingredients.find(ingredient => ingredient.type === "bun");
     const fillings = ingredients.filter(ingredient => ingredient.type !== "bun");
@@ -14,6 +19,13 @@ const BurgerConstructor = ( {ingredients, onDelete} ) => {
                 <TotalAndOrderSubmitBtn total={0} />
             </div>
         );
+    }
+
+    const removeBurgerIngredient = (ingredient_id) => {
+        dispatch({
+            type: REMOVE_CONSTRUCTOR_INGREDIENT,
+            id: ingredient_id
+        })
     }
 
     return (
@@ -41,7 +53,7 @@ const BurgerConstructor = ( {ingredients, onDelete} ) => {
                             text={ingredient.name}
                             price={ingredient.price}
                             thumbnail={ingredient.image}
-                            handleClose={() => onDelete(ingredient._id)}
+                            handleClose={() => removeBurgerIngredient(ingredient._id)}
                         />
                     </div>
                 ))}
