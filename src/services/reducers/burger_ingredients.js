@@ -1,6 +1,6 @@
 import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from '../actions/burger_ingredients';
 import { apiUrl } from "../../utils/variables";
-import {ADD_CONSTRUCTOR_INGREDIENT} from "../actions/burger_constructor";
+import {ADD_CONSTRUCTOR_INGREDIENT, INCREASE_COUNTER, DECREASE_COUNTER, REMOVE_CONSTRUCTOR_INGREDIENT} from "../actions/burger_constructor";
 
 const initialState = {
     ingredients: [],
@@ -78,13 +78,24 @@ export const addIngredientWithValidation = (ingredient) => {
         }
 
         if (ingredient.type === "bun" && burgerIngredients.find(ingredient => ingredient.type === "bun")) {
-            alert("Булочка уже выбрана!");
-            return;
+            const prevIngredient = burgerIngredients.find(ingredient => ingredient.type === "bun")
+            dispatch({
+                type: REMOVE_CONSTRUCTOR_INGREDIENT,
+                ingredient_uuid: prevIngredient.uuid
+            })
+            dispatch({
+                type: DECREASE_COUNTER,
+                ingredient_id: prevIngredient._id
+            })
         }
 
         dispatch({
             type: ADD_CONSTRUCTOR_INGREDIENT,
             ingredient: ingredient,
+        })
+        dispatch({
+            type: INCREASE_COUNTER,
+            ingredient_id: ingredient._id,
         })
     }
 }

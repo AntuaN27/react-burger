@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './order-details.module.css';
 import orderIcon from '../../images/modal_order_icon.svg';
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 const OrderDetails = () => {
     const currentOrderNumber = useSelector(store => store.current_order.current_order[0].number);
