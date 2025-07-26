@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { useDispatch } from "react-redux";
 import styles from './burger-ingredients.module.css'
 import TabIngredients from "./tab-ingredients";
 import FormIngredients from './form-ingredients'
-import { getBurgerIngredients } from "../../services/reducers/burger_ingredients";
+import { getBurgerIngredients } from "../../services/reducers/burgerIngredients";
 
 const BurgerIngredients = () => {
     const dispatch = useDispatch();
@@ -12,7 +12,9 @@ const BurgerIngredients = () => {
     const mainRef = useRef(null);
     const [currentTab, setCurrentTab] = useState('bun');
 
-    dispatch(getBurgerIngredients()); // вызов API получение ингредиентов
+    useEffect(() => {
+        dispatch(getBurgerIngredients()); // вызов API получение ингредиентов
+    }, []);
 
     const handleTabClick = (type) => {
         const refs = {

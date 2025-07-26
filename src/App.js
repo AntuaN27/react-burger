@@ -9,9 +9,7 @@ import appStyles from './App.module.css'
 const App = () => {
     return (
         <>
-        <header>
-            <AppHeader />
-        </header>
+        <AppHeader />
         <main className={appStyles.main}>
             <DndProvider backend={HTML5Backend} >
                 <BurgerIngredients />

@@ -1,4 +1,4 @@
-import { SET_MODAL_INGREDIENT, UNSET_MODAL_INGREDIENT } from '../actions/current_ingredient';
+import { SET_MODAL_INGREDIENT, UNSET_MODAL_INGREDIENT } from '../actions/currentIngredient';
 
 const initialState = {
     current_ingredient: [],

@@ -4,8 +4,8 @@ import styles from "./total-and-order-submit-btn.module.css";
 import { Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from '../modal/modal';
 import OrderDetails from "../modal/order-details";
-import { UNSET_MODAL_ORDER } from "../../services/actions/current_order";
-import { orderValidation } from "../../services/reducers/current_order";
+import { UNSET_MODAL_ORDER } from "../../services/actions/currentOrder";
+import { orderValidation } from "../../services/reducers/currentOrder";
 
 const TotalAndOrderSubmitBtn = () => {
     const dispatch = useDispatch();
@@ -40,7 +40,13 @@ const TotalAndOrderSubmitBtn = () => {
                 </p>
                 <CurrencyIcon type="primary" />
             </div>
-            <Button htmlType="button" type="primary" size="large" onClick={() => handleOpenModal()}>
+            <Button
+                htmlType="button"
+                type="primary"
+                size="large"
+                onClick={() => handleOpenModal()}
+                disabled={burgerIngredients.length === 0}
+            >
                 Оформить заказ
             </Button>
             {modalOrder.length > 0 && (

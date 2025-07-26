@@ -4,7 +4,7 @@ import styles from './form-ingredient.module.css';
 import Ingredient from "./ingredient";
 import IngredientDetails from "../modal/ingredient-details";
 import Modal from '../modal/modal';
-import { SET_MODAL_INGREDIENT, UNSET_MODAL_INGREDIENT } from "../../services/actions/current_ingredient";
+import { SET_MODAL_INGREDIENT, UNSET_MODAL_INGREDIENT } from "../../services/actions/currentIngredient";
 
 const FormIngredients = ({ bunRef, sauceRef, mainRef, setCurrentTab }) => {
     const dispatch = useDispatch();
@@ -58,7 +58,7 @@ const FormIngredients = ({ bunRef, sauceRef, mainRef, setCurrentTab }) => {
                 <li key={ingredient._id} className={styles.card}>
                     <Ingredient
                         ingredient={ingredient}
-                        onNameClick={() => handleOpenModal(ingredient)}
+                        openModal={() => handleOpenModal(ingredient)}
                     />
                 </li>
             ))}

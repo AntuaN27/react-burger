@@ -1,12 +1,10 @@
 import React from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styles from "./ingredient.module.css";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { addIngredientWithValidation } from "../../services/reducers/burger_ingredients";
 import { useDrag } from "react-dnd";
 
-const Ingredient = ({ ingredient, onNameClick }) => {
-    const dispatch = useDispatch();
+const Ingredient = ({ ingredient, openModal }) => {
     const burgerIngredients = useSelector(store =>
         store.burger_constructor.count_ingredients
     );
@@ -15,10 +13,6 @@ const Ingredient = ({ ingredient, onNameClick }) => {
         type: "ingredient",
         item: ingredient,
     })
-
-    const addIngredient = () => {
-        dispatch(addIngredientWithValidation(ingredient))
-    };
 
     return (
         <div ref={el => {
@@ -31,13 +25,13 @@ const Ingredient = ({ ingredient, onNameClick }) => {
                 src={ingredient.image}
                 alt={ingredient.name}
                 className={styles.image_wrapper}
-                onClick={addIngredient}
+                onClick={openModal}
             />
             <div className={styles.price_wrapper}>
                 <CurrencyIcon type="primary"/>
                 <p>{ingredient.price}</p>
             </div>
-            <button className={styles.name} onClick={onNameClick}>{ingredient.name}</button>
+            <button className={styles.name}>{ingredient.name}</button>
         </div>
     )
 }

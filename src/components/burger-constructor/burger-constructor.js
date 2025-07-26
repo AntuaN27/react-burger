@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from './burger-constructor.module.css'
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import TotalAndOrderSubmitBtn from "./total-and-order-submit-btn";
-import { REMOVE_CONSTRUCTOR_INGREDIENT, DECREASE_COUNTER } from "../../services/actions/burger_constructor";
+import { REMOVE_CONSTRUCTOR_INGREDIENT, DECREASE_COUNTER, MOVE_CONSTRUCTOR_INGREDIENT } from "../../services/actions/burgerСonstructor";
 import { useDrop } from "react-dnd";
-import { addIngredientWithValidation } from "../../services/reducers/burger_ingredients";
+import { addIngredientWithValidation } from "../../services/reducers/burgerIngredients";
 import ConstructorFillingItem from "./constructor-filling-item";
 
 const BurgerConstructor = () => {
@@ -40,7 +40,7 @@ const BurgerConstructor = () => {
 
     const moveFilling = (fromIndex, toIndex) => {
       dispatch({
-        type: "MOVE_CONSTRUCTOR_INGREDIENT",
+        type: MOVE_CONSTRUCTOR_INGREDIENT,
         fromIndex,
         toIndex,
       });

@@ -1,6 +1,16 @@
-import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from '../actions/burger_ingredients';
-import { apiUrl } from "../../utils/variables";
-import {ADD_CONSTRUCTOR_INGREDIENT, INCREASE_COUNTER, DECREASE_COUNTER, REMOVE_CONSTRUCTOR_INGREDIENT} from "../actions/burger_constructor";
+import { v4 as uuid } from 'uuid';
+import {
+    GET_INGREDIENTS_REQUEST,
+    GET_INGREDIENTS_SUCCESS,
+    GET_INGREDIENTS_FAILED
+} from '../actions/burgerIngredients';
+import {
+    ADD_CONSTRUCTOR_INGREDIENT,
+    INCREASE_COUNTER,
+    DECREASE_COUNTER,
+    REMOVE_CONSTRUCTOR_INGREDIENT
+} from "../actions/burgerСonstructor";
+import { request } from "../../utils/requestUtils";
 
 const initialState = {
     ingredients: [],
@@ -42,26 +52,19 @@ export const getBurgerIngredients = () => {
         dispatch({
             type: GET_INGREDIENTS_REQUEST
         });
-        fetch(`${apiUrl}/ingredients`)
-        .then(res => res.json())
-        .then(res => {
-            if (res && res.success) {
+        request("/ingredients")
+            .then(res => {
                 dispatch({
                     type: GET_INGREDIENTS_SUCCESS,
                     ingredients: res.data
                 });
-            } else {
+            })
+            .catch(error => {
                 dispatch({
-                    type: GET_INGREDIENTS_FAILED
+                    type: GET_INGREDIENTS_FAILED,
+                    error: error
                 });
-            }
-        })
-        .catch(error => {
-            dispatch({
-                type: GET_INGREDIENTS_FAILED,
-                error: error
             });
-        });
     };
 };
 
@@ -92,6 +95,7 @@ export const addIngredientWithValidation = (ingredient) => {
         dispatch({
             type: ADD_CONSTRUCTOR_INGREDIENT,
             ingredient: ingredient,
+            ingredient_uuid: uuid(),
         })
         dispatch({
             type: INCREASE_COUNTER,

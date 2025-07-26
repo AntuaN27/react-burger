@@ -3,8 +3,9 @@ import {
     REMOVE_CONSTRUCTOR_INGREDIENT,
     INCREASE_COUNTER,
     DECREASE_COUNTER,
-    MOVE_CONSTRUCTOR_INGREDIENT } from '../actions/burger_constructor';
-import { v4 as uuidv4 } from 'uuid';
+    MOVE_CONSTRUCTOR_INGREDIENT,
+    CLEAR_CART,
+} from '../actions/burgerСonstructor';
 
 const initialState = {
     burger_ingredients: [],
@@ -18,7 +19,7 @@ export const burgerConstructor = (state = initialState, action) => {
                 ...state,
                 burger_ingredients: [
                     ...state.burger_ingredients,
-                    {...action.ingredient, uuid: uuidv4()}
+                    {...action.ingredient, uuid: action.ingredient_uuid}
                 ]
             };
         }
@@ -62,6 +63,13 @@ export const burgerConstructor = (state = initialState, action) => {
                 ...state,
                 burger_ingredients: [...buns, ...newFillings],
             };
+        }
+        case CLEAR_CART: {
+            return {
+                ...state,
+                burger_ingredients: [],
+                count_ingredients: {},
+            }
         }
         default: {
             return state;

@@ -1,5 +1,12 @@
-import { POST_ORDER_REQUEST, POST_ORDER_SUCCESS, POST_ORDER_FAILED, SET_MODAL_ORDER, UNSET_MODAL_ORDER } from "../actions/current_order";
-import { apiUrl } from "../../utils/variables";
+import {
+    POST_ORDER_REQUEST,
+    POST_ORDER_SUCCESS,
+    POST_ORDER_FAILED,
+    SET_MODAL_ORDER,
+    UNSET_MODAL_ORDER,
+} from "../actions/currentOrder";
+import { CLEAR_CART } from "../actions/burgerСonstructor";
+import { request } from "../../utils/requestUtils";
 
 const initialState = {
     current_order: [],
@@ -52,16 +59,14 @@ export const postOrder = ({ ingredients }) => {
         dispatch({
             type: POST_ORDER_REQUEST,
         });
-        fetch(`${apiUrl}/orders`, {
+        request("/orders", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ ingredients })
         })
-        .then(res => res.json())
-        .then(res => {
-            if (res && res.success) {
+            .then(res => {
                 dispatch({
                     type: POST_ORDER_SUCCESS,
                 })
@@ -69,21 +74,20 @@ export const postOrder = ({ ingredients }) => {
                     type: SET_MODAL_ORDER,
                     order: res.order,
                 });
-            } else {
+                dispatch({
+                    type: CLEAR_CART,
+                })
+            })
+            .catch(error => {
                 dispatch({
                     type: POST_ORDER_FAILED,
-                });
-            }
-        })
-        .catch(error => {
-            dispatch({
-                type: POST_ORDER_FAILED,
-                error: error,
+                    error: error,
+                })
             })
-        })
     }
 };
 
+// Решил оставить валидацию несмотря на проверку disabled у кнопки, так как это свойство можно вручную отключить и сломать приложение
 export const orderValidation = ({ burgerIngredientsIds }) => {
     return function(dispatch, getState) {
         const state = getState();
