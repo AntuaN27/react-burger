@@ -1,66 +1,106 @@
 import React from 'react';
+import { useSelector, useDispatch } from "react-redux";
 import styles from './burger-constructor.module.css'
-import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import TotalAndOrderSubmitBtn from "./total-and-order-submit-btn";
+import { REMOVE_CONSTRUCTOR_INGREDIENT, DECREASE_COUNTER, MOVE_CONSTRUCTOR_INGREDIENT } from "../../services/actions/burgerСonstructor";
+import { useDrop } from "react-dnd";
+import { addIngredientWithValidation } from "../../services/reducers/burgerIngredients";
+import ConstructorFillingItem from "./constructor-filling-item";
 
-const BurgerConstructor = ( {ingredients, onDelete} ) => {
-    const total = ingredients.reduce((sum, item) => sum + item.price, 0)
+const BurgerConstructor = () => {
+    const ingredients = useSelector(store => store.burger_constructor.burger_ingredients);
+    const dispatch = useDispatch();
     const bun = ingredients.find(ingredient => ingredient.type === "bun");
     const fillings = ingredients.filter(ingredient => ingredient.type !== "bun");
+    const [{ isHover }, dropTarget] = useDrop({
+        accept: "ingredient",
+        drop(ingredient) {
+            onDropHandler(ingredient);
+        },
+        collect: monitor => ({
+            isHover: monitor.isOver(),
+        })
+    })
 
-    if (ingredients.length === 0) {
-        return (
-            <div className={styles.burger_constructor}>
-                <TotalAndOrderSubmitBtn total={0} />
-            </div>
-        );
+    const onDropHandler = (ingredient) => {
+        dispatch(addIngredientWithValidation(ingredient))
     }
 
+    const removeBurgerIngredient = (ingredient) => {
+        dispatch({
+            type: REMOVE_CONSTRUCTOR_INGREDIENT,
+            ingredient_uuid: ingredient.uuid
+        })
+        dispatch({
+            type: DECREASE_COUNTER,
+            ingredient_id: ingredient._id,
+        })
+    }
+
+    const moveFilling = (fromIndex, toIndex) => {
+      dispatch({
+        type: MOVE_CONSTRUCTOR_INGREDIENT,
+        fromIndex,
+        toIndex,
+      });
+    };
+
+    const borderColor = isHover ? 'lightgreen' : 'transparent';
+
     return (
-        <div className={styles.burger_constructor}>
-            <div className={styles.burger_constructor_form}>
-                {/* Верхняя булка */}
-                {bun && (
-                    <div className={styles.burger_constructor_bun}>
-                        <ConstructorElement
-                            type="top"
-                            isLocked={true}
-                            text={`${bun.name} (верх)`}
-                            price={bun.price}
-                            thumbnail={bun.image}
-                        />
-                    </div>
-                )}
+        <div
+            className={styles.burger_constructor}
+            ref={el => {dropTarget(el)}}
+            style={{ borderColor }}
+        >
+            {ingredients.length === 0 ? (
+                <TotalAndOrderSubmitBtn/>
+            ) : (
+                <>
+                    <div className={styles.burger_constructor_form}>
+                    {/* Верхняя булка */}
+                    {bun && (
+                        <div className={styles.burger_constructor_bun}>
+                            <ConstructorElement
+                                type="top"
+                                isLocked={true}
+                                text={`${bun.name} (верх)`}
+                                price={bun.price}
+                                thumbnail={bun.image}
+                            />
+                        </div>
+                    )}
 
-                {/* Начинки */}
-                <div className={styles.burger_constructor_fillings}>
-                    {fillings.map((ingredient, index) => (
-                    <div className={styles.constructor_element_wrapper} key={index}>
-                        <DragIcon type="primary" />
-                        <ConstructorElement
-                            text={ingredient.name}
-                            price={ingredient.price}
-                            thumbnail={ingredient.image}
-                            handleClose={() => onDelete(ingredient._id)}
-                        />
+                    {/* Начинки */}
+                    <div className={styles.burger_constructor_fillings}>
+                        {fillings.map((ingredient, index) => (
+                            <ConstructorFillingItem
+                                key={ingredient.uuid}
+                                index={index}
+                                ingredient={ingredient}
+                                moveFilling={moveFilling}
+                                onRemove={removeBurgerIngredient}
+                            />
+                        ))}
                     </div>
-                ))}
+
+                    {/*Нижняя булка*/}
+                    {bun && (
+                        <div className={styles.burger_constructor_bun}>
+                            <ConstructorElement
+                                type="bottom"
+                                isLocked={true}
+                                text={`${bun.name} (низ)`}
+                                price={bun.price}
+                                thumbnail={bun.image}
+                            />
+                        </div>
+                    )}
                 </div>
-
-                {/*Нижняя булка*/}
-                {bun && (
-                    <div className={styles.burger_constructor_bun}>
-                        <ConstructorElement
-                            type="bottom"
-                            isLocked={true}
-                            text={`${bun.name} (низ)`}
-                            price={bun.price}
-                            thumbnail={bun.image}
-                        />
-                    </div>
-                )}
-            </div>
-            <TotalAndOrderSubmitBtn total={total} />
+                <TotalAndOrderSubmitBtn/>
+                </>
+            )}
         </div>
     );
 }
