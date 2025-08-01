@@ -1,18 +1,35 @@
-import React, {useState} from "react";
+import React, { useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./total-and-order-submit-btn.module.css";
-import {Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from '../modal/modal';
 import OrderDetails from "../modal/order-details";
+import { UNSET_MODAL_ORDER } from "../../services/actions/currentOrder";
+import { orderValidation } from "../../services/reducers/currentOrder";
 
-const TotalAndOrderSubmitBtn = ( {total} ) => {
-    const [modalOrder, setModalOrder] = useState(false)
+const TotalAndOrderSubmitBtn = () => {
+    const dispatch = useDispatch();
+    const modalOrder = useSelector(store => store.current_order.current_order);
+    const burgerIngredients = useSelector(store => store.burger_constructor.burger_ingredients);
+    const burgerIngredientsIds = burgerIngredients.map(ingredient => ingredient._id);
+
+    const total = useMemo(() => {
+        return burgerIngredients.reduce((sum, item) => {
+            if (item.type === "bun") {
+                return sum + item.price * 2;
+            }
+            return sum + item.price
+        }, 0);
+    }, [burgerIngredients])
 
     const handleOpenModal = () => {
-        setModalOrder(true);
+        dispatch(orderValidation({ burgerIngredientsIds }));
     };
 
     const handleCloseModal = () => {
-        setModalOrder(false);
+        dispatch({
+            type: UNSET_MODAL_ORDER,
+        })
     };
 
     return (
@@ -23,10 +40,16 @@ const TotalAndOrderSubmitBtn = ( {total} ) => {
                 </p>
                 <CurrencyIcon type="primary" />
             </div>
-            <Button htmlType="button" type="primary" size="large" onClick={() => handleOpenModal()}>
+            <Button
+                htmlType="button"
+                type="primary"
+                size="large"
+                onClick={() => handleOpenModal()}
+                disabled={burgerIngredients.length === 0}
+            >
                 Оформить заказ
             </Button>
-            {modalOrder && (
+            {modalOrder.length > 0 && (
                 <Modal
                     title={""}
                     onClose={handleCloseModal}
