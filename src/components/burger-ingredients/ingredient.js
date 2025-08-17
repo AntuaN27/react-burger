@@ -1,14 +1,13 @@
 import React from 'react';
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 import styles from "./ingredient.module.css";
-import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDrag } from "react-dnd";
+import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {useDrag} from "react-dnd";
+import {getIngredientsCounters} from "../../services/selectors/constructor";
 
-const Ingredient = ({ ingredient, openModal }) => {
-    const burgerIngredients = useSelector(store =>
-        store.burger_constructor.count_ingredients
-    );
-    const ingredientCounter = burgerIngredients[ingredient._id] || 0;
+const Ingredient = ({ingredient, openModal}) => {
+    const selectedIngredients = useSelector(getIngredientsCounters);
+    const ingredientCounter = selectedIngredients[ingredient._id]
     const [, dragRef] = useDrag({
         type: "ingredient",
         item: ingredient,

@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import styles from './burger-ingredients.module.css'
 import TabIngredients from "./tab-ingredients";
 import FormIngredients from './form-ingredients'
-import { getBurgerIngredients } from "../../services/reducers/burgerIngredients";
+import {getBurgerIngredients} from "../../services/reducers/burgerIngredients";
 
 const BurgerIngredients = () => {
     const dispatch = useDispatch();
@@ -11,10 +11,13 @@ const BurgerIngredients = () => {
     const sauceRef = useRef(null);
     const mainRef = useRef(null);
     const [currentTab, setCurrentTab] = useState('bun');
+    const { ingredientsRequest, ingredientsFailed } = useSelector(
+        store => store.burger_ingredients
+    );
 
     useEffect(() => {
         dispatch(getBurgerIngredients()); // вызов API получение ингредиентов
-    }, []);
+    }, [dispatch]);
 
     const handleTabClick = (type) => {
         const refs = {
@@ -22,8 +25,20 @@ const BurgerIngredients = () => {
             sauce: sauceRef,
             main: mainRef,
         };
-        refs[type]?.current?.scrollIntoView({ behavior: 'smooth' });
+        refs[type]?.current?.scrollIntoView({behavior: 'smooth'});
     };
+
+    // preloader
+    if (ingredientsRequest) {
+        return <p className="text text_type_main-large">
+            Загрузка...
+        </p>
+    }
+    if (ingredientsFailed) {
+        return <p className="text text_type_main-large">
+            Ошибка при загрузке данных, попробуйте обновить страницу
+        </p>;
+    }
 
     return (
         <div className={styles.burger_ingredients}>
@@ -45,4 +60,4 @@ const BurgerIngredients = () => {
     )
 }
 
-export default BurgerIngredients;
+export default React.memo(BurgerIngredients);
