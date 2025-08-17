@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, {useCallback, useEffect, useMemo, useRef} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import styles from './form-ingredient.module.css';
-import Ingredient from "./ingredient";
 import IngredientDetails from "../modal/ingredient-details";
 import Modal from '../modal/modal';
+import {IngredientsCategory} from "./ingredients-category";
 import { SET_MODAL_INGREDIENT, UNSET_MODAL_INGREDIENT } from "../../services/actions/currentIngredient";
 
 const FormIngredients = ({ bunRef, sauceRef, mainRef, setCurrentTab }) => {
@@ -36,7 +36,9 @@ const FormIngredients = ({ bunRef, sauceRef, mainRef, setCurrentTab }) => {
     const handleOpenModal = (ingredient) => {
         dispatch({
             type: SET_MODAL_INGREDIENT,
-            ingredient: ingredient
+            payload: {
+                ingredient: ingredient
+            }
         })
     };
 
@@ -46,31 +48,24 @@ const FormIngredients = ({ bunRef, sauceRef, mainRef, setCurrentTab }) => {
         })
     };
 
-    const buns = ingredients.filter(ingredient => ingredient.type === "bun");
-    const sauce = ingredients.filter(ingredient => ingredient.type === "sauce");
-    const main = ingredients.filter(ingredient => ingredient.type === "main");
-
-    const BlockWrapper = ({ name, ingredients, innerRef }) => (
-        <div className={styles.block_wrapper} ref={innerRef}>
-            <h2 className="text text_type_main-medium">{name}</h2>
-            <ul>
-                {ingredients.map(ingredient => (
-                <li key={ingredient._id} className={styles.card}>
-                    <Ingredient
-                        ingredient={ingredient}
-                        openModal={() => handleOpenModal(ingredient)}
-                    />
-                </li>
-            ))}
-            </ul>
-        </div>
-    )
+    const buns = useMemo(() =>
+        ingredients.filter(ingredient => ingredient.type === "bun"),
+        [ingredients]
+    );
+    const sauce = useMemo(() =>
+        ingredients.filter(ingredient => ingredient.type === "sauce"),
+        [ingredients]
+    );
+    const main = useMemo(() =>
+        ingredients.filter(ingredient => ingredient.type === "main"),
+        [ingredients]
+    );
 
     return (
         <div className={styles.form} ref={scrollContainerRef}>
-            <BlockWrapper name={"Булки"} ingredients={buns} innerRef={bunRef} />
-            <BlockWrapper name={"Соусы"} ingredients={sauce} innerRef={sauceRef} />
-            <BlockWrapper name={"Начинки"} ingredients={main} innerRef={mainRef} />
+            <IngredientsCategory name={"Булки"} ingredients={buns} innerRef={bunRef} handleOpenModal={handleOpenModal} />
+            <IngredientsCategory name={"Соусы"} ingredients={sauce} innerRef={sauceRef} handleOpenModal={handleOpenModal} />
+            <IngredientsCategory name={"Начинки"} ingredients={main} innerRef={mainRef} handleOpenModal={handleOpenModal} />
 
             {modalIngredient.length > 0 && (
                 <Modal

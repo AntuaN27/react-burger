@@ -6,8 +6,6 @@ import {
 } from '../actions/burgerIngredients';
 import {
     ADD_CONSTRUCTOR_INGREDIENT,
-    INCREASE_COUNTER,
-    DECREASE_COUNTER,
     REMOVE_CONSTRUCTOR_INGREDIENT
 } from "../actions/burgerСonstructor";
 import { request } from "../../utils/requestUtils";
@@ -29,7 +27,7 @@ export const burgerIngredients = (state = initialState, action) => {
         case GET_INGREDIENTS_SUCCESS: {
             return {
                 ...state,
-                ingredients: action.ingredients,
+                ingredients: action.payload.ingredients,
                 ingredientsRequest: false,
                 ingredientsFailed: false,
             };
@@ -56,14 +54,18 @@ export const getBurgerIngredients = () => {
             .then(res => {
                 dispatch({
                     type: GET_INGREDIENTS_SUCCESS,
-                    ingredients: res.data
-                });
+                    payload: {
+                        ingredients: res.data
+                    }
+                })
             })
             .catch(error => {
                 dispatch({
                     type: GET_INGREDIENTS_FAILED,
-                    error: error
-                });
+                    payload: {
+                        error: error
+                    }
+                })
             });
     };
 };
@@ -84,22 +86,18 @@ export const addIngredientWithValidation = (ingredient) => {
             const prevIngredient = burgerIngredients.find(ingredient => ingredient.type === "bun")
             dispatch({
                 type: REMOVE_CONSTRUCTOR_INGREDIENT,
-                ingredient_uuid: prevIngredient.uuid
-            })
-            dispatch({
-                type: DECREASE_COUNTER,
-                ingredient_id: prevIngredient._id
+                payload: {
+                    ingredient_uuid: prevIngredient.uuid
+                }
             })
         }
 
         dispatch({
             type: ADD_CONSTRUCTOR_INGREDIENT,
-            ingredient: ingredient,
-            ingredient_uuid: uuid(),
-        })
-        dispatch({
-            type: INCREASE_COUNTER,
-            ingredient_id: ingredient._id,
+            payload: {
+                ingredient: ingredient,
+                ingredient_uuid: uuid(),
+            }
         })
     }
 }

@@ -19,7 +19,7 @@ export const currentOrder = (state = initialState, action) => {
         case SET_MODAL_ORDER: {
             return {
                 ...state,
-                current_order: [action.order],
+                current_order: [action.payload.order],
             };
         }
         case UNSET_MODAL_ORDER: {
@@ -72,7 +72,9 @@ export const postOrder = ({ ingredients }) => {
                 })
                 dispatch({
                     type: SET_MODAL_ORDER,
-                    order: res.order,
+                    payload: {
+                        order: res.order,
+                    }
                 });
                 dispatch({
                     type: CLEAR_CART,
@@ -81,7 +83,9 @@ export const postOrder = ({ ingredients }) => {
             .catch(error => {
                 dispatch({
                     type: POST_ORDER_FAILED,
-                    error: error,
+                    payload: {
+                        error: error,
+                    }
                 })
             })
     }

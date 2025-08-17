@@ -9,7 +9,7 @@ export const currentIngredient = (state = initialState, action) => {
         case SET_MODAL_INGREDIENT: {
             return {
                 ...state,
-                current_ingredient: [action.ingredient],
+                current_ingredient: [action.payload.ingredient],
             };
         }
         case UNSET_MODAL_INGREDIENT: {

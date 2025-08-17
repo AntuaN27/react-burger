@@ -7,12 +7,12 @@ const AppHeader = () => {
         <header>
             <div className={headerStyles.app_header}>
                 <div className={headerStyles.constructor_and_list_controllers}>
-                    <HeaderController ComponentIcon={BurgerIcon} text={"Конструктор"} />
-                    <HeaderController ComponentIcon={ListIcon} text={"Лента заказов"} />
+                    <HeaderController ComponentIcon={BurgerIcon} text={"Конструктор"} link={"/constructor"} />
+                    <HeaderController ComponentIcon={ListIcon} text={"Лента заказов"} link={"/list_orders"} />
                 </div>
                 <Logo />
                 <div className={headerStyles.profile_controller}>
-                    <HeaderController ComponentIcon={ProfileIcon} text={"Личный кабинет"} />
+                    <HeaderController ComponentIcon={ProfileIcon} text={"Личный кабинет"} link={"/profile"} />
                 </div>
             </div>
         </header>
