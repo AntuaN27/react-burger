@@ -1,0 +1,14 @@
+.ingredient {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 120px;
+    font-family: "Golos", sans-serif;
+}
+
+.title {
+    color: white;
+    font-weight: 700;
+    font-size: 36px;
+}

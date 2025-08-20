@@ -1,0 +1,2 @@
+export const SET_AUTH_TOKENS = "SET_AUTH_TOKENS";
+export const UNSET_AUTH_TOKENS = "UNSET_AUTH_TOKENS";

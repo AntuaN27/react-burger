@@ -11,13 +11,16 @@ const BurgerIngredients = () => {
     const sauceRef = useRef(null);
     const mainRef = useRef(null);
     const [currentTab, setCurrentTab] = useState('bun');
-    const { ingredientsRequest, ingredientsFailed } = useSelector(
+    const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
         store => store.burger_ingredients
     );
 
+    // Получение ингредиентов если их ещё нет
     useEffect(() => {
-        dispatch(getBurgerIngredients()); // вызов API получение ингредиентов
-    }, [dispatch]);
+        if (!ingredients || ingredients.length === 0) {
+            dispatch(getBurgerIngredients());
+        }
+    }, [dispatch, ingredients]);
 
     const handleTabClick = (type) => {
         const refs = {

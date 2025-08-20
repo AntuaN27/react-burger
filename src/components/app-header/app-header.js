@@ -7,7 +7,7 @@ const AppHeader = () => {
         <header>
             <div className={headerStyles.app_header}>
                 <div className={headerStyles.constructor_and_list_controllers}>
-                    <HeaderController ComponentIcon={BurgerIcon} text={"Конструктор"} link={"/constructor"} />
+                    <HeaderController ComponentIcon={BurgerIcon} text={"Конструктор"} link={"/"} />
                     <HeaderController ComponentIcon={ListIcon} text={"Лента заказов"} link={"/list_orders"} />
                 </div>
                 <Logo />

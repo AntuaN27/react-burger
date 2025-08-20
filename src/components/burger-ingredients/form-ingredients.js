@@ -1,24 +1,25 @@
 import React, {useCallback, useEffect, useMemo, useRef} from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import styles from './form-ingredient.module.css';
 import IngredientDetails from "../modal/ingredient-details";
 import Modal from '../modal/modal';
 import {IngredientsCategory} from "./ingredients-category";
-import { SET_MODAL_INGREDIENT, UNSET_MODAL_INGREDIENT } from "../../services/actions/currentIngredient";
+import {SET_MODAL_INGREDIENT, UNSET_MODAL_INGREDIENT} from "../../services/actions/currentIngredient";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const FormIngredients = ({ bunRef, sauceRef, mainRef, setCurrentTab }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
     const modalIngredient = useSelector(store => store.current_ingredient.current_ingredient)
     const ingredients = useSelector(store => store.burger_ingredients.ingredients)
     const scrollContainerRef = useRef(null);
 
     const handleScroll = useCallback(() => {
         const containerTopPosition = scrollContainerRef.current.getBoundingClientRect().top;
-
         const bunTop = Math.abs(bunRef.current.getBoundingClientRect().top - containerTopPosition);
         const sauceTop = Math.abs(sauceRef.current.getBoundingClientRect().top - containerTopPosition);
         const mainTop = Math.abs(mainRef.current.getBoundingClientRect().top - containerTopPosition);
-
         const currentTabPosition = Math.min(bunTop, sauceTop, mainTop);
 
         if (currentTabPosition === bunTop) setCurrentTab("bun");
@@ -40,12 +41,14 @@ const FormIngredients = ({ bunRef, sauceRef, mainRef, setCurrentTab }) => {
                 ingredient: ingredient
             }
         })
+        navigate(`/ingredients/${ingredient._id}`, { state: { background: location } });
     };
 
     const handleCloseModal = () => {
         dispatch({
             type: UNSET_MODAL_INGREDIENT
         })
+        navigate("/", { replace: true });
     };
 
     const buns = useMemo(() =>

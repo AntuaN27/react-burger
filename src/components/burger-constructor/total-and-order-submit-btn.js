@@ -7,15 +7,23 @@ import OrderDetails from "../modal/order-details";
 import { UNSET_MODAL_ORDER } from "../../services/actions/currentOrder";
 import { orderValidation } from "../../services/reducers/currentOrder";
 import {getPrice} from "../../services/selectors/constructor";
+import {useNavigate} from "react-router-dom";
 
 const TotalAndOrderSubmitBtn = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const modalOrder = useSelector(store => store.current_order.current_order);
     const burgerIngredients = useSelector(store => store.burger_constructor.burger_ingredients);
     const burgerIngredientsIds = burgerIngredients.map(ingredient => ingredient._id);
     const total = useSelector(getPrice);
+    const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
 
     const handleOpenModal = () => {
+        if (!accessToken || !refreshToken) {
+            navigate("/login", { replace: true });
+            return;
+        }
         dispatch(orderValidation({ burgerIngredientsIds }));
     };
 
