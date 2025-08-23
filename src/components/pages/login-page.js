@@ -12,8 +12,8 @@ const LoginPage = () => {
     const location = useLocation();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const authTokens = useSelector(store =>
-        store.authTokens.authTokens
+    const { authTokens } = useSelector(store =>
+        store.authTokens
     );
     const redirectPath = location.state?.from?.pathname || "/";
 
@@ -39,8 +39,7 @@ const LoginPage = () => {
     // Сохранение токенов локальном хранилище после авторизации
     useEffect(() => {
         if (authTokens?.accessToken && authTokens?.refreshToken) {
-            const accessToken = authTokens.accessToken.split("Bearer ")[1]
-            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("accessToken", authTokens.accessToken);
             localStorage.setItem("refreshToken", authTokens.refreshToken);
             // После успешной авторизации попадаем в главное меню или куда хотел перейти юзер
             navigate(redirectPath, { replace: true });
@@ -53,6 +52,7 @@ const LoginPage = () => {
                 className={commonStyles.form}
                 onSubmit={(e) => {
                     e.preventDefault();
+                    login();
                 }}
             >
                 <div className={commonStyles.title}>
@@ -76,7 +76,7 @@ const LoginPage = () => {
                     placeholder={"Пароль"}
                     autoComplete="current-password"
                 />
-                <Button htmlType="button" type="primary" size="large" onClick={login}>
+                <Button htmlType="submit" type="primary" size="large">
                   Войти
                 </Button>
             </form>

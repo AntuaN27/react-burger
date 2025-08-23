@@ -61,6 +61,7 @@ const ResetPasswordPage = () => {
                 className={commonStyles.form}
                 onSubmit={(e) => {
                     e.preventDefault();
+                    saveData();
                 }}
             >
                 <div className={commonStyles.title}>
@@ -82,7 +83,7 @@ const ResetPasswordPage = () => {
                     placeholder={"Введите код из письма"}
                     autoComplete="one-time-code"
                 />
-                <Button htmlType="button" type="primary" size="large" onClick={saveData}>
+                <Button htmlType="submit" type="primary" size="large">
                   Сохранить
                 </Button>
             </form>

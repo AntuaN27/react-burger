@@ -34,3 +34,10 @@
     align-items: center;
     gap: 14px;
 }
+
+.preloader_order {
+    font-family: "Golos", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-left: 38px;
+}

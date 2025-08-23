@@ -16,6 +16,7 @@ const TotalAndOrderSubmitBtn = () => {
     const burgerIngredients = useSelector(store => store.burger_constructor.burger_ingredients);
     const burgerIngredientsIds = burgerIngredients.map(ingredient => ingredient._id);
     const total = useSelector(getPrice);
+    const orderRequest = useSelector(store => store.current_order.orderRequest);
     const accessToken = localStorage.getItem("accessToken");
     const refreshToken = localStorage.getItem("refreshToken");
 
@@ -46,7 +47,7 @@ const TotalAndOrderSubmitBtn = () => {
                 type="primary"
                 size="large"
                 onClick={() => handleOpenModal()}
-                disabled={burgerIngredients.length === 0}
+                disabled={burgerIngredients.length === 0 || orderRequest}
             >
                 Оформить заказ
             </Button>

@@ -4,6 +4,7 @@ import {
     POST_REFRESH_TOKEN_FAILED,
 } from "../../actions/auth/refreshToken";
 import { request } from "../../../utils/requestUtils";
+import {SET_AUTH_TOKENS} from "../../actions/auth/tokens";
 
 const initialState = {
     refreshTokenRequest: false,
@@ -53,11 +54,20 @@ export const postRefreshToken = (data) => {
             .then(res => {
                 // сохраняем новые токены в localStorage
                 const { accessToken, refreshToken } = res;
-                localStorage.setItem("accessToken", accessToken.split("Bearer ")[1]); // Без Bearer
+                const accessTokenSplit = accessToken.split("Bearer ")[1]; // Без Bearer
+                localStorage.setItem("accessToken", accessTokenSplit);
                 localStorage.setItem("refreshToken", refreshToken);
 
                 dispatch({
                     type: POST_REFRESH_TOKEN_SUCCESS,
+                })
+
+                dispatch({
+                    type: SET_AUTH_TOKENS,
+                    payload: {
+                        accessToken: accessTokenSplit,
+                        refreshToken: refreshToken,
+                    }
                 })
 
                 return res;

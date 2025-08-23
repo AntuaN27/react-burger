@@ -2,7 +2,6 @@ import {
     POST_LOGOUT_REQUEST,
     POST_LOGOUT_SUCCESS,
     POST_LOGOUT_FAILED,
-    LOGOUT,
 } from "../../actions/auth/logout";
 import { request } from "../../../utils/requestUtils";
 import {UNSET_AUTH_TOKENS} from "../../actions/auth/tokens";
@@ -11,7 +10,6 @@ const initialState = {
     logoutRequest: false,
     logoutSuccess: false,
     logoutFailed: false,
-    logout: false,
 }
 
 export const logout = (state = initialState, action) => {
@@ -37,12 +35,6 @@ export const logout = (state = initialState, action) => {
                 logoutFailed: true
             };
         }
-        case LOGOUT: {
-            return {
-                ...state,
-                logout: true
-            }
-        }
         default: {
             return state;
         }
@@ -65,11 +57,11 @@ export const postLogout = (data) => {
                 if (res && res.success) {
                     localStorage.removeItem("accessToken");
                     localStorage.removeItem("refreshToken");
-                    dispatch({type: UNSET_AUTH_TOKENS});
                     dispatch({ type: POST_LOGOUT_SUCCESS });
                 } else {
                     dispatch({ type: POST_LOGOUT_FAILED });
                 }
+                dispatch({type: UNSET_AUTH_TOKENS});
                 return res;
             })
             .catch(error => {
@@ -79,6 +71,7 @@ export const postLogout = (data) => {
                         error: error.message || "Неизвестная ошибка"
                     }
                 });
+                dispatch({type: UNSET_AUTH_TOKENS});
             });
     };
 };

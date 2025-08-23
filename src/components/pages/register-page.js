@@ -12,8 +12,8 @@ const RegisterPage = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const authTokens =  useSelector(store =>
-        store.register.authTokens
+    const { authTokens } = useSelector(store =>
+        store.authTokens
     );
 
     const loginPage = () => {
@@ -39,8 +39,7 @@ const RegisterPage = () => {
     // Сохранение токенов локальном хранилище после регистрации
     useEffect(() => {
         if (authTokens?.accessToken && authTokens?.refreshToken) {
-            const accessToken = authTokens.accessToken.split("Bearer ")[1]
-            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("accessToken", authTokens.accessToken);
             localStorage.setItem("refreshToken", authTokens.refreshToken);
             navigate("/login", { replace: true })
         }
@@ -52,6 +51,7 @@ const RegisterPage = () => {
                 className={commonStyles.form}
                 onSubmit={(e) => {
                     e.preventDefault();
+                    register();
                 }}
             >
                 <div className={commonStyles.title}>
@@ -82,7 +82,7 @@ const RegisterPage = () => {
                     placeholder={"Пароль"}
                     autoComplete="new-password"
                 />
-                <Button htmlType="button" type="primary" size="large" onClick={register}>
+                <Button htmlType="submit" type="primary" size="large">
                   Зарегистрироваться
                 </Button>
             </form>

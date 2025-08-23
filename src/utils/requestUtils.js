@@ -1,6 +1,6 @@
 import {apiUrl} from './variables';
 import {postRefreshToken} from "../services/reducers/auth/refreshToken";
-import {LOGOUT} from "../services/actions/auth/logout";
+import {UNSET_AUTH_TOKENS} from "../services/actions/auth/tokens";
 
 const checkResponse = async (res) => {
     const data = await res.json();
@@ -52,9 +52,10 @@ export const createRequest = (dispatch) => {
                     return await checkResponse(retryRes).then(checkSuccess);
                 } catch (refreshError) {
                     // Кейс когда истёк refreshToken
-                    localStorage.clear();
+                    localStorage.removeItem("accessToken");
+                    localStorage.removeItem("refreshToken");
                     dispatch({
-                        type: LOGOUT
+                        type: UNSET_AUTH_TOKENS
                     })
                     return Promise.reject(refreshError);
                 }

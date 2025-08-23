@@ -6,7 +6,6 @@ import {postForgotPassword} from "../../services/reducers/auth/forgotPassword";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {emailRegex} from "../../utils/variables";
-// import {RESET_FORGOT_PASSWORD} from "../../services/actions/auth/forgotPassword";
 
 const ForgotPasswordPage = () => {
     const navigate = useNavigate();
@@ -30,10 +29,6 @@ const ForgotPasswordPage = () => {
 
     useEffect(() => {
         if (forgotPasswordSuccess && email) {
-            // // Сбрасываем до значений по умолчанию
-            // dispatch({
-            //     type: RESET_FORGOT_PASSWORD
-            // })
             // Переход на страницу восстановления
             navigate("/reset-password", { replace: true });
         }
@@ -41,7 +36,13 @@ const ForgotPasswordPage = () => {
 
     return (
         <div className={commonStyles.page}>
-            <div className={commonStyles.form}>
+            <form
+                className={commonStyles.form}
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    recoverPasswordPage();
+                }}
+            >
                 <div className={commonStyles.title}>
                     Восстановление пароля
                 </div>
@@ -53,10 +54,10 @@ const ForgotPasswordPage = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                <Button htmlType="button" type="primary" size="large" onClick={recoverPasswordPage}>
+                <Button htmlType="submit" type="primary" size="large">
                   Восстановить
                 </Button>
-            </div>
+            </form>
             <div className={commonStyles.sub_information}>
                 <div className={commonStyles.sub_info_block}>
                     Вспомнили пароль?

@@ -55,10 +55,15 @@ export const postRegister = (data) => {
                 dispatch({
                     type: POST_REGISTER_SUCCESS,
                 })
+
+                const accessTokenSplit = res.accessToken.split("Bearer ")[1]; // Без Bearer
+                localStorage.setItem("accessToken", accessTokenSplit);
+                localStorage.setItem("refreshToken", res.refreshToken);
+
                 dispatch({
                     type: SET_AUTH_TOKENS,
                     payload: {
-                        accessToken: res.accessToken,
+                        accessToken: accessTokenSplit,
                         refreshToken: res.refreshToken,
                     }
                 })

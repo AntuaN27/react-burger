@@ -20,6 +20,8 @@ import IngredientDetails from "./components/modal/ingredient-details";
 import {ProtectedRouteElement} from "./utils/protectedRouteElement";
 import ProfileUserInfoPage from "./components/pages/profile/profile-user-info";
 import OrdersPage from "./components/pages/profile/profile-orders";
+import {getBurgerIngredients} from "./services/reducers/burgerIngredients";
+import {checkAuthTokens} from "./services/reducers/auth/tokens";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -35,28 +37,18 @@ const App = () => {
     );
     // Получение выбранного ингредиента
     const modalIngredient = ingredients.find(item => item._id === ingredientId)
-    // Флаг перехода на страницу авторизации
-    const { logout } = useSelector(store =>
-        store.logout
-    )
-
-    // useEffect(() => {
-    //     if (logout) {
-    //         navigate("/login", {replace:true})
-    //     }
-    // }, [logout, navigate]);
 
     useEffect(() => {
-      if (logout && location.pathname !== "/login") {
-        navigate("/login", { replace: true });
-      }
-    }, [logout, location.pathname, navigate]);
+        dispatch(checkAuthTokens()); // Проверка токенов
+        dispatch(getBurgerIngredients()); // Получение ингредиентов
+    }, [dispatch]);
 
     // Обработчик закрытия модального окна
     const handleCloseModal = () => {
         dispatch({ type: UNSET_MODAL_INGREDIENT });
         navigate("/", { replace: true });
     };
+
     return (
         <>
             <AppHeader />
@@ -108,4 +100,4 @@ const App = () => {
     )
 }
 
-export default App;
+export default React.memo(App);

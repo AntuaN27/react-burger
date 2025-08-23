@@ -55,10 +55,13 @@ export const postLogin = (data) => {
                 dispatch({
                     type: POST_LOGIN_SUCCESS,
                 })
+
+                const accessTokenSplit = res.accessToken.split("Bearer ")[1]; // Без Bearer
+
                 dispatch({
                     type: SET_AUTH_TOKENS,
                     payload: {
-                        accessToken: res.accessToken,
+                        accessToken: accessTokenSplit,
                         refreshToken: res.refreshToken,
                     }
                 })
