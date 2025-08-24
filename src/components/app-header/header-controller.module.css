@@ -8,5 +8,9 @@
     gap: 8px;
     box-sizing: border-box;
     padding: 16px 20px;
+    color: #8585AD;
+}
+
+.active_btn {
     color: white;
 }

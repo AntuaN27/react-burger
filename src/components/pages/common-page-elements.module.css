@@ -1,0 +1,42 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    margin-top: 180px;
+    font-family: "Golos", sans-serif;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.sub_information {
+    display: flex;
+    flex-direction: column;
+    margin-top: 80px;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    color: #8585AD;
+}
+
+.sub_info_block {
+    display: flex;
+    gap: 8px;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.sub_info_btn {
+    all: unset;
+    cursor: pointer;
+    color: #4C4CFF;
+}

@@ -13,6 +13,8 @@ const BurgerConstructor = () => {
     const dispatch = useDispatch();
     const bun = ingredients.find(ingredient => ingredient.type === "bun");
     const fillings = ingredients.filter(ingredient => ingredient.type !== "bun");
+    const orderRequest = useSelector(store => store.current_order.orderRequest);
+
     const [{ isHover }, dropTarget] = useDrop({
         accept: "ingredient",
         drop(ingredient) {
@@ -99,10 +101,15 @@ const BurgerConstructor = () => {
                     )}
                 </div>
                 <TotalAndOrderSubmitBtn/>
+                {orderRequest && (
+                    <p className={styles.preloader_order}>
+                        Пожалуйста подождите, оформляем заказ...
+                    </p>
+                )}
                 </>
             )}
         </div>
     );
 }
 
-export default BurgerConstructor;
+export default React.memo(BurgerConstructor);

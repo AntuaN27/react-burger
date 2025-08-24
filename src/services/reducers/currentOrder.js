@@ -6,7 +6,7 @@ import {
     UNSET_MODAL_ORDER,
 } from "../actions/currentOrder";
 import { CLEAR_CART } from "../actions/burgerСonstructor";
-import { request } from "../../utils/requestUtils";
+import {createRequest} from "../../utils/requestUtils";
 
 const initialState = {
     current_order: [],
@@ -56,6 +56,7 @@ export const currentOrder = (state = initialState, action) => {
 
 export const postOrder = ({ ingredients }) => {
     return function(dispatch) {
+        const request = createRequest(dispatch);
         dispatch({
             type: POST_ORDER_REQUEST,
         });
@@ -63,6 +64,7 @@ export const postOrder = ({ ingredients }) => {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
             body: JSON.stringify({ ingredients })
         })

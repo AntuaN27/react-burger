@@ -1,12 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import React, {useRef, useState} from 'react';
+import {useSelector} from "react-redux";
 import styles from './burger-ingredients.module.css'
 import TabIngredients from "./tab-ingredients";
 import FormIngredients from './form-ingredients'
-import {getBurgerIngredients} from "../../services/reducers/burgerIngredients";
 
 const BurgerIngredients = () => {
-    const dispatch = useDispatch();
     const bunRef = useRef(null);
     const sauceRef = useRef(null);
     const mainRef = useRef(null);
@@ -14,10 +12,6 @@ const BurgerIngredients = () => {
     const { ingredientsRequest, ingredientsFailed } = useSelector(
         store => store.burger_ingredients
     );
-
-    useEffect(() => {
-        dispatch(getBurgerIngredients()); // вызов API получение ингредиентов
-    }, [dispatch]);
 
     const handleTabClick = (type) => {
         const refs = {
