@@ -1,0 +1,121 @@
+import React from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import styles from './burger-constructor.module.css'
+import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
+import TotalAndOrderSubmitBtn from "./total-and-order-submit-btn";
+import { REMOVE_CONSTRUCTOR_INGREDIENT, MOVE_CONSTRUCTOR_INGREDIENT } from "../../services/actions/burgerСonstructor";
+import { useDrop } from "react-dnd";
+import { addIngredientWithValidation } from "../../services/reducers/burgerIngredients";
+import ConstructorFillingItem from "./constructor-filling-item";
+import {IIngredient} from "../../types";
+
+const BurgerConstructor = () => {
+    // @ts-ignore "sprint5"
+    const ingredients = useSelector(store => store.burger_constructor.burger_ingredients);
+    const dispatch = useDispatch();
+    // @ts-ignore "sprint5"
+    const bun = ingredients.find(ingredient => ingredient.type === "bun");
+    // @ts-ignore "sprint5"
+    const fillings = ingredients.filter(ingredient => ingredient.type !== "bun");
+    // @ts-ignore "sprint5"
+    const orderRequest = useSelector(store => store.current_order.orderRequest);
+
+    const [{ isHover }, dropTarget] = useDrop<IIngredient, void, { isHover: boolean }>({
+        accept: "ingredient",
+        drop(ingredient) {
+            onDropHandler(ingredient);
+        },
+        collect: monitor => ({
+            isHover: monitor.isOver(),
+        })
+    })
+
+    const onDropHandler = (ingredient: IIngredient) => {
+        // @ts-ignore "sprint5"
+        dispatch(addIngredientWithValidation(ingredient))
+    }
+
+    const removeBurgerIngredient = (ingredient: IIngredient) => {
+        dispatch({
+            type: REMOVE_CONSTRUCTOR_INGREDIENT,
+            payload: {
+                ingredient_uuid: ingredient.uuid
+            }
+        })
+    }
+
+    const moveFilling = (fromIndex: number, toIndex: number) => {
+      dispatch({
+        type: MOVE_CONSTRUCTOR_INGREDIENT,
+        payload: {
+            fromIndex,
+            toIndex,
+        }
+      });
+    };
+
+    const borderColor = isHover ? 'lightgreen' : 'transparent';
+
+    return (
+        <div
+            className={styles.burger_constructor}
+            ref={el => {dropTarget(el)}}
+            style={{ borderColor }}
+        >
+            {ingredients.length === 0 ? (
+                <TotalAndOrderSubmitBtn/>
+            ) : (
+                <>
+                    <div className={styles.burger_constructor_form}>
+                    {/* Верхняя булка */}
+                    {bun && (
+                        <div className={styles.burger_constructor_bun}>
+                            <ConstructorElement
+                                type="top"
+                                isLocked={true}
+                                text={`${bun.name} (верх)`}
+                                price={bun.price}
+                                thumbnail={bun.image}
+                            />
+                        </div>
+                    )}
+
+                    {/* Начинки */}
+                    <div className={styles.burger_constructor_fillings}>
+                        {fillings.map((ingredient: IIngredient, index: number) => (
+                            <ConstructorFillingItem
+                                key={ingredient.uuid}
+                                index={index}
+                                ingredient={ingredient}
+                                moveFilling={moveFilling}
+                                onRemove={removeBurgerIngredient}
+                            />
+                        ))}
+                    </div>
+
+                    {/*Нижняя булка*/}
+                    {bun && (
+                        <div className={styles.burger_constructor_bun}>
+                            <ConstructorElement
+                                type="bottom"
+                                isLocked={true}
+                                text={`${bun.name} (низ)`}
+                                price={bun.price}
+                                thumbnail={bun.image}
+                            />
+                        </div>
+                    )}
+                </div>
+                <TotalAndOrderSubmitBtn/>
+                {orderRequest && (
+                    <p className={styles.preloader_order}>
+                        Пожалуйста подождите, оформляем заказ...
+                    </p>
+                )}
+                </>
+            )}
+        </div>
+    );
+}
+
+export default React.memo(BurgerConstructor);
