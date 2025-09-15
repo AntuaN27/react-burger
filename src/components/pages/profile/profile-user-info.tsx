@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../../services/hooks";
 import {getUserRequest} from "../../../services/reducers/profile/getUser";
 import {patchUserRequest} from "../../../services/reducers/profile/patchUser";
 import {InputField} from "../common-page-elements";
@@ -9,7 +9,6 @@ import {IUserInfo} from "../../../types";
 
 const ProfileUserInfoPage = () => {
   const dispatch = useDispatch();
-  // @ts-ignore "sprint5"
   const { userInfo } = useSelector(store => store.getUser);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,7 +18,6 @@ const ProfileUserInfoPage = () => {
 
   // Данные с сервера при переходе на страницу
   useEffect(() => {
-      // @ts-ignore "sprint5"
       dispatch(getUserRequest());
   }, [dispatch]);
 
@@ -58,10 +56,8 @@ const ProfileUserInfoPage = () => {
   const handleSave = () => {
     const data: IUserInfo = { name, email };
     if (password) data.password = password;
-    // @ts-ignore "sprint5"
     dispatch(patchUserRequest(data));
     // После успешного патча обновляем локальные значения
-    // @ts-ignore "sprint5"
     dispatch(getUserRequest());
     setPassword("");
     setHasChanges(false);

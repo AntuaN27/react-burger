@@ -2,18 +2,24 @@ import {
     POST_REGISTER_REQUEST,
     POST_REGISTER_SUCCESS,
     POST_REGISTER_FAILED,
-} from "../../actions/auth/register";
+} from "../../constants/auth/register";
 import { request } from "../../../utils/requestUtils";
-import {SET_AUTH_TOKENS} from "../../actions/auth/tokens";
+import {SET_AUTH_TOKENS} from "../../constants/auth/tokens";
 import {IRegisterData} from "../../../types";
+import {TRegisterActions} from "../../actions/auth/register";
+import {AppDispatch, AppThunk} from "../../types";
 
-const initialState = {
+type TRegisterState = {
+    registerRequest: boolean,
+    registerFailed: boolean
+};
+
+const initialState: TRegisterState = {
     registerRequest: false,
     registerFailed: false,
 }
 
-// @ts-ignore "sprint5"
-export const register = (state = initialState, action) => {
+export const register = (state = initialState, action: TRegisterActions): TRegisterState => {
     switch (action.type) {
         case POST_REGISTER_REQUEST: {
             return {
@@ -41,43 +47,41 @@ export const register = (state = initialState, action) => {
     }
 }
 
-export const postRegister = (data: IRegisterData) => {
-    // @ts-ignore "sprint5"
-    return function(dispatch) {
+export const postRegister = (data: IRegisterData): AppThunk => {
+    return async function (dispatch: AppDispatch) {
         dispatch({
             type: POST_REGISTER_REQUEST
         });
-        return request<any>("/auth/register", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        })
-            .then(res => {
-                dispatch({
-                    type: POST_REGISTER_SUCCESS,
-                })
-
-                const accessTokenSplit = res.accessToken.split("Bearer ")[1]; // Без Bearer
-                localStorage.setItem("accessToken", accessTokenSplit);
-                localStorage.setItem("refreshToken", res.refreshToken);
-
-                dispatch({
-                    type: SET_AUTH_TOKENS,
-                    payload: {
-                        accessToken: accessTokenSplit,
-                        refreshToken: res.refreshToken,
-                    }
-                })
-            })
-            .catch(error => {
-                dispatch({
-                    type: POST_REGISTER_FAILED,
-                    payload: {
-                        error: error.message || "Неизвестная ошибка"
-                    }
-                });
+        try {
+            const res = await request<any>("/auth/register", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
             });
+            dispatch({
+                type: POST_REGISTER_SUCCESS,
+            });
+
+            const accessTokenSplit = res.accessToken.split("Bearer ")[1]; // Без Bearer
+            localStorage.setItem("accessToken", accessTokenSplit);
+            localStorage.setItem("refreshToken", res.refreshToken);
+
+            dispatch({
+                type: SET_AUTH_TOKENS,
+                payload: {
+                    accessToken: accessTokenSplit,
+                    refreshToken: res.refreshToken,
+                }
+            });
+        } catch (error: any) {
+            dispatch({
+                type: POST_REGISTER_FAILED,
+                payload: {
+                    error: error.message || "Неизвестная ошибка"
+                }
+            });
+        }
     };
 };

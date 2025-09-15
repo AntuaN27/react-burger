@@ -1,7 +1,7 @@
 import {createSelector} from "reselect";
+import {RootState} from "../types";
 
-// @ts-ignore "sprint5"
-const getIngredients = (store) => store.burger_constructor.burger_ingredients || [];
+const getIngredients = (store: RootState) => store.burger_constructor.burger_ingredients || [];
 
 export const getConstructorItems = createSelector(
     getIngredients,
@@ -12,7 +12,6 @@ export const getConstructorItems = createSelector(
 export const getPrice = createSelector(
     getIngredients,
     (ingredients = []) => {
-        // @ts-ignore "sprint5"
         return ingredients.reduce((sum, item) => {
             if (item.type === "bun") {
                 return sum + item.price * 2;
@@ -24,16 +23,12 @@ export const getPrice = createSelector(
 export const getIngredientsCounters = createSelector(
     getConstructorItems,
     ({ingredients}) => {
-        const counters = {};
-        // @ts-ignore "sprint5"
+        const counters : any = {};
         ingredients.forEach((ingredient) => {
-            // @ts-ignore "sprint5"
             if (!counters[ingredient._id]) counters[ingredient._id] = 0;
             if (ingredient.type === "bun") {
-                // @ts-ignore "sprint5"
                 counters[ingredient._id] = 2;
             } else {
-                // @ts-ignore "sprint5"
                 counters[ingredient._id]++;
             }
         });

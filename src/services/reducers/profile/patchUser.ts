@@ -2,17 +2,23 @@ import {
     PATCH_USER_REQUEST,
     PATCH_USER_SUCCESS,
     PATCH_USER_FAILED,
-} from '../../actions/profile/patchUser';
+} from '../../constants/profile/patchUser';
 import { createRequest } from "../../../utils/requestUtils";
 import {IUserInfo} from "../../../types";
+import {TPatchUserActions} from "../../actions/profile/patchUser";
+import {AppDispatch, AppThunk} from "../../types";
 
-const initialState = {
+type TPatchUserState = {
+    patchUserRequest: boolean,
+    patchUserFailed: boolean
+}
+
+const initialState: TPatchUserState = {
     patchUserRequest: false,
     patchUserFailed: false,
 }
 
-// @ts-ignore "sprint5"
-export const patchUser = (state = initialState, action) => {
+export const patchUser = (state = initialState, action: TPatchUserActions): TPatchUserState => {
     switch (action.type) {
         case PATCH_USER_REQUEST: {
             return {
@@ -40,9 +46,8 @@ export const patchUser = (state = initialState, action) => {
     }
 };
 
-export const patchUserRequest = (data: IUserInfo) => {
-    // @ts-ignore "sprint5"
-    return function(dispatch) {
+export const patchUserRequest = (data: IUserInfo): AppThunk => {
+    return function(dispatch: AppDispatch) {
         const request = createRequest(dispatch);
         dispatch({
             type: PATCH_USER_REQUEST

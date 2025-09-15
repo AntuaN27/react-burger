@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {useSelector} from "react-redux";
+import {useSelector} from "../../services/hooks";
 import styles from './burger-ingredients.module.css'
 import TabIngredients from "./tab-ingredients";
 import FormIngredients from './form-ingredients'
@@ -11,7 +11,6 @@ const BurgerIngredients = () => {
     const mainRef = useRef<HTMLDivElement>(null);
     const [currentTab, setCurrentTab] = useState<TabType>('bun');
     const { ingredientsRequest, ingredientsFailed } = useSelector(
-        // @ts-ignore "sprint5"
         store => store.burger_ingredients
     );
 

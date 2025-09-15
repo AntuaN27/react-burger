@@ -13,8 +13,8 @@ import ResetPasswordPage from "./components/pages/reset-password-page";
 import ProfilePage from "./components/pages/profile/profile-page";
 import NotFoundPage from "./components/pages/not-found-page";
 import IngredientPage from "./components/pages/ingredient-page";
-import {useDispatch, useSelector} from "react-redux";
-import {UNSET_MODAL_INGREDIENT} from "./services/actions/currentIngredient";
+import {useDispatch, useSelector} from "./services/hooks";
+import {UNSET_MODAL_INGREDIENT} from "./services/constants/currentIngredient";
 import Modal from "./components/modal/modal";
 import IngredientDetails from "./components/modal/ingredient-details";
 import {ProtectedRouteElement} from "./utils/protectedRouteElement";
@@ -33,17 +33,13 @@ const App = () => {
     const background = location.state && location.state.background;
     // Получение всех ингредиентов
     const ingredients = useSelector(store =>
-        // @ts-ignore "sprint5"
         store.burger_ingredients.ingredients
     );
     // Получение выбранного ингредиента
-    // @ts-ignore "sprint5"
     const modalIngredient = ingredients.find(item => item._id === ingredientId)
 
     useEffect(() => {
-        // @ts-ignore "sprint5"
         dispatch(checkAuthTokens()); // Проверка токенов
-        // @ts-ignore "sprint5"
         dispatch(getBurgerIngredients()); // Получение ингредиентов
     }, [dispatch]);
 

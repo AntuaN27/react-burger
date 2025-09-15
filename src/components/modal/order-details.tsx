@@ -1,10 +1,9 @@
 import React from "react";
 import styles from './order-details.module.css';
 import orderIcon from '../../images/modal_order_icon.svg';
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/hooks";
 
 const OrderDetails = () => {
-    // @ts-ignore "sprint5"
     const currentOrderNumber = useSelector(store => store.current_order.current_order[0].number);
     return (
         <div className={styles.order_details}>

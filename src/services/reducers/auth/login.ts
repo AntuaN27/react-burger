@@ -2,18 +2,24 @@ import {
     POST_LOGIN_REQUEST,
     POST_LOGIN_SUCCESS,
     POST_LOGIN_FAILED,
-} from "../../actions/auth/login";
+} from "../../constants/auth/login";
 import { request } from "../../../utils/requestUtils";
-import {SET_AUTH_TOKENS} from "../../actions/auth/tokens";
+import {SET_AUTH_TOKENS} from "../../constants/auth/tokens";
 import {IRegisterData} from "../../../types";
+import {TLoginActions} from "../../actions/auth/login";
+import {AppDispatch, AppThunk} from "../../types";
 
-const initialState = {
+type TLoginState = {
+    loginRequest: boolean,
+    loginFailed: boolean
+};
+
+const initialState: TLoginState = {
     loginRequest: false,
     loginFailed: false,
 }
 
-// @ts-ignore "sprint5"
-export const login = (state = initialState, action) => {
+export const login = (state = initialState, action: TLoginActions): TLoginState => {
     switch (action.type) {
         case POST_LOGIN_REQUEST: {
             return {
@@ -47,9 +53,8 @@ interface ILoginResponse {
   refreshToken: string;
 }
 
-export const postLogin = (data: IRegisterData) => {
-    // @ts-ignore "sprint5"
-    return function(dispatch) {
+export const postLogin = (data: IRegisterData): AppThunk => {
+    return function(dispatch: AppDispatch) {
         dispatch({
             type: POST_LOGIN_REQUEST
         });

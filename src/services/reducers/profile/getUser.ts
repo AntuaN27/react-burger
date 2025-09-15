@@ -2,17 +2,28 @@ import {
     GET_USER_REQUEST,
     GET_USER_SUCCESS,
     GET_USER_FAILED,
-} from '../../actions/profile/getUser';
+} from '../../constants/profile/getUser';
 import { createRequest } from "../../../utils/requestUtils";
+import {TGetUserActions} from "../../actions/profile/getUser";
+import {AppDispatch, AppThunk} from "../../types";
+import {IUserInfo} from "../../../types";
 
-const initialState = {
-    userInfo: {},
+type TGetUserState = {
+    userInfo: IUserInfo,
+    userInfoRequest: boolean,
+    userInfoFailed: boolean
+}
+
+const initialState: TGetUserState = {
+    userInfo: {
+        name: "",
+        email: "",
+    },
     userInfoRequest: false,
     userInfoFailed: false,
 }
 
-// @ts-ignore "sprint5"
-export const getUser = (state = initialState, action) => {
+export const getUser = (state = initialState, action: TGetUserActions): TGetUserState => {
     switch (action.type) {
         case GET_USER_REQUEST: {
             return {
@@ -41,9 +52,8 @@ export const getUser = (state = initialState, action) => {
     }
 };
 
-export const getUserRequest = () => {
-    // @ts-ignore "sprint5"
-    return function(dispatch) {
+export const getUserRequest = (): AppThunk => {
+    return async function(dispatch: AppDispatch) {
         const request = createRequest(dispatch);
 
         dispatch({

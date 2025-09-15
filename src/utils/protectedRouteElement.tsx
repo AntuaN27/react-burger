@@ -1,5 +1,5 @@
 import {Navigate, useLocation} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useSelector} from "../services/hooks";
 import {ReactElement} from "react";
 
 interface IProtectedRouteElement {
@@ -11,7 +11,6 @@ export const ProtectedRouteElement = ({element, onlyUnAuth = false}: IProtectedR
     const refreshToken = localStorage.getItem("refreshToken");
     // Флаг проверки прав пользователя
     // Вынесен сюда, чтобы покрывать только защищённые маршруты
-    // @ts-ignore "sprint5"
     const isLoggedIn = useSelector(store => store.authTokens.isLoggedIn);
     const location = useLocation();
     const from = location.state?.from || '/';

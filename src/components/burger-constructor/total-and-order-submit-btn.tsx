@@ -1,10 +1,10 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import styles from "./total-and-order-submit-btn.module.css";
 import { Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from '../modal/modal';
 import OrderDetails from "../modal/order-details";
-import { UNSET_MODAL_ORDER } from "../../services/actions/currentOrder";
+import { UNSET_MODAL_ORDER } from "../../services/constants/currentOrder";
 import { orderValidation } from "../../services/reducers/currentOrder";
 import {getPrice} from "../../services/selectors/constructor";
 import {useNavigate} from "react-router-dom";
@@ -12,14 +12,10 @@ import {useNavigate} from "react-router-dom";
 const TotalAndOrderSubmitBtn = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // @ts-ignore "sprint5"
     const modalOrder = useSelector(store => store.current_order.current_order);
-    // @ts-ignore "sprint5"
     const burgerIngredients = useSelector(store => store.burger_constructor.burger_ingredients);
-    // @ts-ignore "sprint5"
     const burgerIngredientsIds = burgerIngredients.map(ingredient => ingredient._id);
     const total = useSelector(getPrice);
-    // @ts-ignore "sprint5"
     const orderRequest = useSelector(store => store.current_order.orderRequest);
     const accessToken = localStorage.getItem("accessToken");
     const refreshToken = localStorage.getItem("refreshToken");
@@ -29,7 +25,6 @@ const TotalAndOrderSubmitBtn = () => {
             navigate("/login", { replace: true });
             return;
         }
-        // @ts-ignore "sprint5"
         dispatch(orderValidation({ burgerIngredientsIds }));
     };
 

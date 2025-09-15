@@ -12,4 +12,4 @@ export interface IIngredient {
         image_large: string;
         __v: number;
         uuid?: string;
-    }
+}

@@ -3,7 +3,7 @@ import {InputField} from "./common-page-elements";
 import commonStyles from "./common-page-elements.module.css";
 import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../services/hooks";
 import {postRegister} from "../../services/reducers/auth/register";
 import {IRegisterData} from "../../types";
 
@@ -14,7 +14,6 @@ const RegisterPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { authTokens } = useSelector(store =>
-        // @ts-ignore "sprint5"
         store.authTokens
     );
 
@@ -32,7 +31,6 @@ const RegisterPage = () => {
             password: password,
             name: name
         }
-        // @ts-ignore "sprint5"
         Promise.resolve(dispatch(postRegister(data)))
             .then(() => {
               navigate("/", { replace: true });

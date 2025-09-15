@@ -1,4 +1,4 @@
-import {useSelector} from "react-redux";
+import {useSelector} from "../../services/hooks";
 import {useLocation} from "react-router-dom";
 import styles from "./ingredient-page.module.css";
 import IngredientDetails from "../modal/ingredient-details";
@@ -12,7 +12,6 @@ const IngredientPage = () => {
 
     // Получение всех ингредиентов
     const ingredients =  useSelector(store =>
-        // @ts-ignore "sprint5"
         store.burger_ingredients.ingredients as IIngredient[]);
 
     // Получение нужного ингредиента

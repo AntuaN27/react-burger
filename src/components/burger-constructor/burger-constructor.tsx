@@ -1,23 +1,19 @@
 import React from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../services/hooks";
 import styles from './burger-constructor.module.css'
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import TotalAndOrderSubmitBtn from "./total-and-order-submit-btn";
-import { REMOVE_CONSTRUCTOR_INGREDIENT, MOVE_CONSTRUCTOR_INGREDIENT } from "../../services/actions/burgerСonstructor";
+import { REMOVE_CONSTRUCTOR_INGREDIENT, MOVE_CONSTRUCTOR_INGREDIENT } from "../../services/constants/burgerСonstructor";
 import { useDrop } from "react-dnd";
 import { addIngredientWithValidation } from "../../services/reducers/burgerIngredients";
 import ConstructorFillingItem from "./constructor-filling-item";
 import {IIngredient} from "../../types";
 
 const BurgerConstructor = () => {
-    // @ts-ignore "sprint5"
     const ingredients = useSelector(store => store.burger_constructor.burger_ingredients);
     const dispatch = useDispatch();
-    // @ts-ignore "sprint5"
     const bun = ingredients.find(ingredient => ingredient.type === "bun");
-    // @ts-ignore "sprint5"
     const fillings = ingredients.filter(ingredient => ingredient.type !== "bun");
-    // @ts-ignore "sprint5"
     const orderRequest = useSelector(store => store.current_order.orderRequest);
 
     const [{ isHover }, dropTarget] = useDrop<IIngredient, void, { isHover: boolean }>({
@@ -31,17 +27,18 @@ const BurgerConstructor = () => {
     })
 
     const onDropHandler = (ingredient: IIngredient) => {
-        // @ts-ignore "sprint5"
         dispatch(addIngredientWithValidation(ingredient))
     }
 
     const removeBurgerIngredient = (ingredient: IIngredient) => {
-        dispatch({
-            type: REMOVE_CONSTRUCTOR_INGREDIENT,
-            payload: {
-                ingredient_uuid: ingredient.uuid
-            }
-        })
+        if (ingredient.uuid) {
+            dispatch({
+                type: REMOVE_CONSTRUCTOR_INGREDIENT,
+                payload: {
+                    ingredient_uuid: ingredient.uuid
+                }
+            })
+        }
     }
 
     const moveFilling = (fromIndex: number, toIndex: number) => {

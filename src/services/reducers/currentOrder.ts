@@ -1,21 +1,29 @@
 import {
+    SET_MODAL_ORDER,
+    UNSET_MODAL_ORDER,
     POST_ORDER_REQUEST,
     POST_ORDER_SUCCESS,
     POST_ORDER_FAILED,
-    SET_MODAL_ORDER,
-    UNSET_MODAL_ORDER,
-} from "../actions/currentOrder";
-import { CLEAR_CART } from "../actions/burgerСonstructor";
+} from "../constants/currentOrder";
+import { TCurrentOrderActions } from "../actions/currentOrder";
+import { CLEAR_CART } from "../constants/burgerСonstructor";
 import {createRequest} from "../../utils/requestUtils";
+import {TCurrentOrder} from "../types/data";
+import {AppDispatch, AppThunk, RootState} from "../types";
 
-const initialState = {
+type TCurrentOrderState = {
+    current_order: TCurrentOrder,
+    orderRequest: boolean,
+    orderFailed: boolean,
+}
+
+const initialState: TCurrentOrderState = {
     current_order: [],
     orderRequest: false,
     orderFailed: false,
 }
 
-// @ts-ignore "sprint5"
-export const currentOrder = (state = initialState, action) => {
+export const currentOrder = (state = initialState, action: TCurrentOrderActions): TCurrentOrderState => {
     switch (action.type) {
         case SET_MODAL_ORDER: {
             return {
@@ -59,9 +67,8 @@ interface IPostOrderParams {
   ingredients: string[];
 }
 
-export const postOrder = ({ ingredients }: IPostOrderParams) => {
-    // @ts-ignore "sprint5"
-    return function(dispatch) {
+export const postOrder = ({ ingredients }: IPostOrderParams): AppThunk => {
+    return function(dispatch: AppDispatch) {
         const request = createRequest(dispatch);
         dispatch({
             type: POST_ORDER_REQUEST,
@@ -105,12 +112,10 @@ interface IOrderValidation {
 
 // Решил оставить валидацию несмотря на проверку disabled у кнопки, так как это свойство можно вручную отключить и сломать приложение
 export const orderValidation = ({ burgerIngredientsIds }: IOrderValidation) => {
-    // @ts-ignore "sprint5"
-    return function(dispatch, getState) {
+    return function(dispatch: AppDispatch, getState: () => RootState) {
         const state = getState();
         const burgerIngredients = state.burger_constructor.burger_ingredients;
-        // @ts-ignore "sprint5"
-        if (!burgerIngredients.length > 0) {
+        if (burgerIngredients.length === 0) {
             alert("Выберите, пожалуйста, хотя бы 1 ингредиент");
         } else {
             dispatch(postOrder({ ingredients: burgerIngredientsIds }))

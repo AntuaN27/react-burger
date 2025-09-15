@@ -1,6 +1,6 @@
 import styles from "./profile-page.module.css";
 import {NavLink, Outlet, useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch} from "../../../services/hooks";
 import {postLogout} from "../../../services/reducers/auth/logout";
 
 const ProfilePage = () => {
@@ -9,7 +9,6 @@ const ProfilePage = () => {
 
     // Обработчик выхода
     const handleLogout = () => {
-        // @ts-ignore "sprint5"
         Promise.resolve(dispatch(postLogout({ token: localStorage.getItem("refreshToken") })))
             .then(() => {
               navigate("/login", { replace: true });

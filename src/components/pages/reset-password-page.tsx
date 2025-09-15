@@ -3,9 +3,9 @@ import {InputField} from "./common-page-elements";
 import commonStyles from "./common-page-elements.module.css";
 import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../services/hooks";
 import {postResetPassword} from "../../services/reducers/auth/resetPassword";
-import {RESET_RESET_PASSWORD} from "../../services/actions/auth/resetPassword";
+import {RESET_RESET_PASSWORD} from "../../services/constants/auth/resetPassword";
 import {IAuthData} from "../../types";
 
 const ResetPasswordPage = () => {
@@ -14,11 +14,9 @@ const ResetPasswordPage = () => {
     const [password, setPassword] = useState("");
     const [code, setCode] = useState("");
     const { resetPasswordSuccess } = useSelector(store =>
-        // @ts-ignore "sprint5"
         store.reset_password
     );
     const { forgotPasswordSuccess } = useSelector(store =>
-        // @ts-ignore "sprint5"
         store.forgot_password
     )
 
@@ -52,7 +50,6 @@ const ResetPasswordPage = () => {
             password: password,
             token: code
         };
-        // @ts-ignore "sprint5"
         Promise.resolve(dispatch(postResetPassword(data)))
             .then(() => {
               navigate("/login", { replace: true });

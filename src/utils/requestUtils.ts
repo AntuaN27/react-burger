@@ -1,7 +1,8 @@
 import {apiUrl} from './variables';
 import {postRefreshToken} from "../services/reducers/auth/refreshToken";
-import {UNSET_AUTH_TOKENS} from "../services/actions/auth/tokens";
+import {UNSET_AUTH_TOKENS} from "../services/constants/auth/tokens";
 import {IError} from "../types";
+import {AppDispatch} from "../services/types";
 
 const checkResponse = async <T=any>(res: Response): Promise<T> => {
     const data = await res.json();
@@ -32,8 +33,7 @@ export const request: TRequest = (endpoint, options) => {
 }
 
 // Сложный request с поддержкой токенов
-// @ts-ignore "sprint5"
-export const createRequest = (dispatch) => {
+export const createRequest = (dispatch: AppDispatch) => {
     return async (endpoint: string, options: RequestInit = {}) => {
         try {
             const res = await fetch(`${apiUrl}${endpoint}`, options);

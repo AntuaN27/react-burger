@@ -3,22 +3,29 @@ import {
     GET_INGREDIENTS_REQUEST,
     GET_INGREDIENTS_SUCCESS,
     GET_INGREDIENTS_FAILED
-} from '../actions/burgerIngredients';
+} from '../constants/burgerIngredients';
 import {
     ADD_CONSTRUCTOR_INGREDIENT,
     REMOVE_CONSTRUCTOR_INGREDIENT
-} from "../actions/burgerСonstructor";
+} from "../constants/burgerСonstructor";
 import { request } from "../../utils/requestUtils";
-import {IIngredient} from "../../types";
+import {TIngredient} from "../types/data";
+import {TBurgerIngredientsActions} from "../actions/burgerIngredients";
+import {AppDispatch, AppThunk, RootState} from "../types";
 
-const initialState = {
+type TBurgerIngredientsState = {
+    ingredients: ReadonlyArray<TIngredient>,
+    ingredientsRequest: boolean,
+    ingredientsFailed: boolean,
+}
+
+const initialState: TBurgerIngredientsState = {
     ingredients: [],
     ingredientsRequest: false,
     ingredientsFailed: false,
 }
 
-// @ts-ignore "sprint5"
-export const burgerIngredients = (state = initialState, action) => {
+export const burgerIngredients = (state = initialState, action: TBurgerIngredientsActions): TBurgerIngredientsState => {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {
@@ -48,12 +55,11 @@ export const burgerIngredients = (state = initialState, action) => {
 };
 
 interface IGetIngredientsResponse {
-  data: IIngredient[];
+  data: TIngredient[];
 }
 
-export const getBurgerIngredients = () => {
-    // @ts-ignore "sprint5"
-    return function(dispatch) {
+export const getBurgerIngredients = (): AppThunk => {
+    return function(dispatch: AppDispatch) {
         dispatch({
             type: GET_INGREDIENTS_REQUEST
         });
@@ -77,22 +83,19 @@ export const getBurgerIngredients = () => {
     };
 };
 
-export const addIngredientWithValidation = (ingredient: IIngredient) => {
-    // @ts-ignore "sprint5"
-    return function(dispatch, getState) {
+export const addIngredientWithValidation = (ingredient: TIngredient) => {
+    return function(dispatch: AppDispatch, getState: () => RootState) {
         const state = getState();
-        const burgerIngredients: IIngredient[] = state.burger_constructor.burger_ingredients;
-
+        const burgerIngredients: TIngredient[] = state.burger_constructor.burger_ingredients;
         if (burgerIngredients.length === 0) {
             if (ingredient.type !== "bun") {
                 alert("Сначала выберите булочку!");
                 return;
             }
         }
-
         if (ingredient.type === "bun" && burgerIngredients.find(ingredient => ingredient.type === "bun")) {
             const prevIngredient = burgerIngredients.find(ingredient => ingredient.type === "bun")
-            if (prevIngredient) {
+            if (prevIngredient && prevIngredient.uuid) {
                 dispatch({
                     type: REMOVE_CONSTRUCTOR_INGREDIENT,
                     payload: {
@@ -101,7 +104,6 @@ export const addIngredientWithValidation = (ingredient: IIngredient) => {
                 })
             }
         }
-
         dispatch({
             type: ADD_CONSTRUCTOR_INGREDIENT,
             payload: {
