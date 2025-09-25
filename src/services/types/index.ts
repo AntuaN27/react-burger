@@ -13,7 +13,9 @@ import {TRefreshTokenActions} from "../actions/auth/refreshToken";
 import {TLogoutActions} from "../actions/auth/logout";
 import {TLoginActions} from "../actions/auth/login";
 import {TForgotPasswordActions} from "../actions/auth/forgotPassword";
- 
+import {WsFeedActionTypes} from "../websocket/websocket-feed/actions";
+import {WsProfileActionTypes} from "../websocket/websocket-profile/actions";
+
 export type RootState = ReturnType<typeof store.getState>;
 
 // Типизация всех экшенов приложения
@@ -29,7 +31,9 @@ type TApplicationActions = TCurrentOrderActions
     | TRefreshTokenActions
     | TLogoutActions
     | TLoginActions
-    | TForgotPasswordActions;
+    | TForgotPasswordActions
+    | WsFeedActionTypes
+    | WsProfileActionTypes;
 
 // Типизация thunk'ов
 export type AppThunk<TReturn = void> = ThunkAction<

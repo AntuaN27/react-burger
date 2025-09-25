@@ -86,7 +86,7 @@ export const getBurgerIngredients = (): AppThunk => {
 export const addIngredientWithValidation = (ingredient: TIngredient) => {
     return function(dispatch: AppDispatch, getState: () => RootState) {
         const state = getState();
-        const burgerIngredients: TIngredient[] = state.burger_constructor.burger_ingredients;
+        const burgerIngredients: TIngredient[] = state.burgerConstructor.burger_ingredients;
         if (burgerIngredients.length === 0) {
             if (ingredient.type !== "bun") {
                 alert("Сначала выберите булочку!");

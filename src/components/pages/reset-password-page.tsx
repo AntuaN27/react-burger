@@ -14,10 +14,10 @@ const ResetPasswordPage = () => {
     const [password, setPassword] = useState("");
     const [code, setCode] = useState("");
     const { resetPasswordSuccess } = useSelector(store =>
-        store.reset_password
+        store.resetPassword
     );
     const { forgotPasswordSuccess } = useSelector(store =>
-        store.forgot_password
+        store.forgotPassword
     )
 
     // Редирект пользователя если он не прошёл forgot-password

@@ -1,0 +1,64 @@
+.feed_page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+}
+
+.title {
+    display: flex;
+    margin-top: 40px;
+    justify-content: flex-start;
+}
+
+.feed_form {
+    display: flex;
+    margin-top: 20px;
+    max-height: 100vh;
+    gap: 64px;
+}
+
+.order_feed {
+    display: flex;
+    flex-direction: column;
+    width: 610px;
+    gap: 16px;
+    /*height: 50%;*/
+    max-height: 70vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.orders_statistics {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    /*width: 580px;*/
+}
+
+.orders_status {
+    display: flex;
+    gap: 36px;
+}
+
+.column_title {
+    display: flex;
+    margin-bottom: 24px;
+}
+
+.column_content {
+    display: flex;
+    flex-direction: column;
+    height: 152px;
+    width: 200px;
+    overflow-y: auto;
+    gap: 8px;
+}
+
+.ready_status {
+    color: #00CCCC;
+}
+
+.column_content_element {
+
+}

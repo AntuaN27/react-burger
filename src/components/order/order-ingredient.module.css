@@ -1,0 +1,26 @@
+.ingredient {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.ingredient_name {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.ingredient_name img {
+    height: 64px;
+    width: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.ingredient_price {
+    display: flex;
+    margin-top: 40px;
+    align-items: center;
+    gap: 8px;
+}

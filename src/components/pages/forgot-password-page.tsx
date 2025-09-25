@@ -12,7 +12,7 @@ const ForgotPasswordPage = () => {
     const dispatch = useDispatch();
     const [email, setEmail] = useState("");
     const { forgotPasswordSuccess } = useSelector(
-        state => state.forgot_password
+        state => state.forgotPassword
     );
 
     const loginPage = () => {

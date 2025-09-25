@@ -1,7 +1,8 @@
 import {createSelector} from "reselect";
 import {RootState} from "../types";
+import {TIngredient} from "../types/data";
 
-const getIngredients = (store: RootState) => store.burger_constructor.burger_ingredients || [];
+const getIngredients = (store: RootState) => store.burgerConstructor.burger_ingredients || [];
 
 export const getConstructorItems = createSelector(
     getIngredients,
@@ -11,7 +12,7 @@ export const getConstructorItems = createSelector(
 
 export const getPrice = createSelector(
     getIngredients,
-    (ingredients = []) => {
+    (ingredients: TIngredient[] = []) => {
         return ingredients.reduce((sum, item) => {
             if (item.type === "bun") {
                 return sum + item.price * 2;
@@ -24,7 +25,7 @@ export const getIngredientsCounters = createSelector(
     getConstructorItems,
     ({ingredients}) => {
         const counters : any = {};
-        ingredients.forEach((ingredient) => {
+        ingredients.forEach((ingredient: TIngredient) => {
             if (!counters[ingredient._id]) counters[ingredient._id] = 0;
             if (ingredient.type === "bun") {
                 counters[ingredient._id] = 2;

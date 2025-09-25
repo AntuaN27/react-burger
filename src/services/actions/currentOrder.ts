@@ -4,8 +4,16 @@ import {
     POST_ORDER_REQUEST,
     POST_ORDER_SUCCESS,
     POST_ORDER_FAILED,
+    GET_ORDER_REQUEST,
+    GET_ORDER_FEED_SUCCESS,
+    GET_ORDER_PROFILE_SUCCESS,
+    GET_ORDER_FAILED,
+    SET_FEED_MODAL_ORDER,
+    UNSET_FEED_MODAL_ORDER,
+    SET_PROFILE_MODAL_ORDER,
+    UNSET_PROFILE_MODAL_ORDER
 } from "../constants/currentOrder";
-import {TCurrentOrder} from "../types/data";
+import {TCurrentOrder, TOrder} from "../types/data";
 
 // Типизация экшенов
 export interface ISetModalOrderAction {
@@ -31,8 +39,61 @@ export interface IPostOrderFailedAction {
     readonly type: typeof POST_ORDER_FAILED;
 }
 
+export interface IGetOrderRequestAction {
+    readonly type: typeof GET_ORDER_REQUEST;
+}
+
+export interface IGetOrderFeedSuccessAction {
+    readonly type: typeof GET_ORDER_FEED_SUCCESS;
+    readonly payload: {
+        orderInfo: TOrder
+    }
+}
+
+export interface IGetOrderProfileSuccessAction {
+    readonly type: typeof GET_ORDER_PROFILE_SUCCESS;
+    readonly payload: {
+        orderInfo: TOrder
+    }
+}
+
+export interface IGetOrderFailedAction {
+    readonly type: typeof GET_ORDER_FAILED;
+}
+
+export interface ISetFeedModalOrder {
+    readonly type: typeof SET_FEED_MODAL_ORDER;
+    readonly payload: {
+        orderInfo: any;
+    }
+}
+
+export interface IUnsetFeedModalOrder {
+    readonly type: typeof UNSET_FEED_MODAL_ORDER
+}
+
+
+export interface ISetProfileModalOrder {
+    readonly type: typeof SET_PROFILE_MODAL_ORDER;
+    readonly payload: {
+        orderInfo: any;
+    }
+}
+
+export interface IUnsetProfileModalOrder {
+    readonly type: typeof UNSET_PROFILE_MODAL_ORDER
+}
+
 export type TCurrentOrderActions = ISetModalOrderAction
     | IUnsetModalOrderAction
     | IPostOrderRequestAction
     | IPostOrderSuccessAction
-    | IPostOrderFailedAction;
+    | IPostOrderFailedAction
+    | IGetOrderRequestAction
+    | IGetOrderFeedSuccessAction
+    | IGetOrderProfileSuccessAction
+    | IGetOrderFailedAction
+    | ISetFeedModalOrder
+    | IUnsetFeedModalOrder
+    | ISetProfileModalOrder
+    | IUnsetProfileModalOrder;

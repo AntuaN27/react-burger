@@ -7,6 +7,7 @@ import {IngredientsCategory} from "./ingredients-category";
 import {SET_MODAL_INGREDIENT, UNSET_MODAL_INGREDIENT} from "../../services/constants/currentIngredient";
 import {useLocation, useNavigate} from "react-router-dom";
 import {IIngredient, TabType} from "../../types";
+import {TIngredient} from "../../services/types/data";
 
 interface IFormIngredients {
     bunRef: React.RefObject<HTMLDivElement | null>;
@@ -19,8 +20,8 @@ const FormIngredients: React.FC<IFormIngredients> = ({ bunRef, sauceRef, mainRef
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const modalIngredient: IIngredient | null = useSelector(store => store.current_ingredient.current_ingredient);
-    const ingredients = useSelector(store => store.burger_ingredients.ingredients);
+    const modalIngredient: IIngredient | null = useSelector(store => store.currentIngredient.current_ingredient);
+    const ingredients = useSelector(store => store.burgerIngredients.ingredients);
     const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
     const handleScroll = useCallback(() => {
@@ -65,15 +66,15 @@ const FormIngredients: React.FC<IFormIngredients> = ({ bunRef, sauceRef, mainRef
     };
 
     const buns = useMemo(() =>
-        ingredients.filter(ingredient => ingredient.type === "bun"),
+        ingredients.filter((ingredient: TIngredient) => ingredient.type === "bun"),
         [ingredients]
     );
     const sauce = useMemo(() =>
-        ingredients.filter(ingredient => ingredient.type === "sauce"),
+        ingredients.filter((ingredient: TIngredient) => ingredient.type === "sauce"),
         [ingredients]
     );
     const main = useMemo(() =>
-        ingredients.filter(ingredient => ingredient.type === "main"),
+        ingredients.filter((ingredient: TIngredient) => ingredient.type === "main"),
         [ingredients]
     );
 
@@ -85,7 +86,7 @@ const FormIngredients: React.FC<IFormIngredients> = ({ bunRef, sauceRef, mainRef
 
             {modalIngredient && (
                 <Modal
-                    title={"Детали ингредиента"}
+                    title={<p className="text text_type_main-large">Детали ингредиента</p>}
                     onClose={handleCloseModal}
                 >
                     <IngredientDetails ingredient={modalIngredient} />

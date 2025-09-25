@@ -11,7 +11,7 @@ const BurgerIngredients = () => {
     const mainRef = useRef<HTMLDivElement>(null);
     const [currentTab, setCurrentTab] = useState<TabType>('bun');
     const { ingredientsRequest, ingredientsFailed } = useSelector(
-        store => store.burger_ingredients
+        store => store.burgerIngredients
     );
 
     const handleTabClick = (type: TabType) => {

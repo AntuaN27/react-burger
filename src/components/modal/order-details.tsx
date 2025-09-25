@@ -4,7 +4,7 @@ import orderIcon from '../../images/modal_order_icon.svg';
 import { useSelector } from "../../services/hooks";
 
 const OrderDetails = () => {
-    const currentOrderNumber = useSelector(store => store.current_order.current_order[0].number);
+    const currentOrderNumber = useSelector(store => store.currentOrder.currentOrder[0].number);
     return (
         <div className={styles.order_details}>
             <p className={`${styles.order_number} text text_type_digits-large`}>{currentOrderNumber}</p>

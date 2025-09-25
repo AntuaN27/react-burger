@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     width: 720px;
+    border-radius: 40px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -25,6 +26,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-left: auto; /* Кейс когда нет заголовка но кнопка нужна справа */
 }
 
 .close_btn:hover {

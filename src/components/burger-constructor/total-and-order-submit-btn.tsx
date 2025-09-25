@@ -8,15 +8,16 @@ import { UNSET_MODAL_ORDER } from "../../services/constants/currentOrder";
 import { orderValidation } from "../../services/reducers/currentOrder";
 import {getPrice} from "../../services/selectors/constructor";
 import {useNavigate} from "react-router-dom";
+import {TIngredient} from "../../services/types/data";
 
 const TotalAndOrderSubmitBtn = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const modalOrder = useSelector(store => store.current_order.current_order);
-    const burgerIngredients = useSelector(store => store.burger_constructor.burger_ingredients);
-    const burgerIngredientsIds = burgerIngredients.map(ingredient => ingredient._id);
+    const modalOrder = useSelector(store => store.currentOrder.currentOrder);
+    const burgerIngredients = useSelector(store => store.burgerConstructor.burger_ingredients);
+    const burgerIngredientsIds = burgerIngredients.map((ingredient: TIngredient) => ingredient._id);
     const total = useSelector(getPrice);
-    const orderRequest = useSelector(store => store.current_order.orderRequest);
+    const orderRequest = useSelector(store => store.currentOrder.postOrderRequest);
     const accessToken = localStorage.getItem("accessToken");
     const refreshToken = localStorage.getItem("refreshToken");
 

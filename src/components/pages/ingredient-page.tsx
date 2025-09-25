@@ -12,7 +12,7 @@ const IngredientPage = () => {
 
     // Получение всех ингредиентов
     const ingredients =  useSelector(store =>
-        store.burger_ingredients.ingredients as IIngredient[]);
+        store.burgerIngredients.ingredients as IIngredient[]);
 
     // Получение нужного ингредиента
     const ingredient = ingredients.find((item: IIngredient) => item._id === ingredientId);

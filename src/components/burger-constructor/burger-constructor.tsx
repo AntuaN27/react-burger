@@ -8,13 +8,14 @@ import { useDrop } from "react-dnd";
 import { addIngredientWithValidation } from "../../services/reducers/burgerIngredients";
 import ConstructorFillingItem from "./constructor-filling-item";
 import {IIngredient} from "../../types";
+import {TIngredient} from "../../services/types/data";
 
 const BurgerConstructor = () => {
-    const ingredients = useSelector(store => store.burger_constructor.burger_ingredients);
+    const ingredients = useSelector(store => store.burgerConstructor.burger_ingredients);
     const dispatch = useDispatch();
-    const bun = ingredients.find(ingredient => ingredient.type === "bun");
-    const fillings = ingredients.filter(ingredient => ingredient.type !== "bun");
-    const orderRequest = useSelector(store => store.current_order.orderRequest);
+    const bun = ingredients.find((ingredient: TIngredient) => ingredient.type === "bun");
+    const fillings = ingredients.filter((ingredient: TIngredient) => ingredient.type !== "bun");
+    const orderRequest = useSelector(store => store.currentOrder.postOrderRequest);
 
     const [{ isHover }, dropTarget] = useDrop<IIngredient, void, { isHover: boolean }>({
         accept: "ingredient",
