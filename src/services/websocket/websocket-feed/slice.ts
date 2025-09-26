@@ -1,8 +1,9 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {connectingFeed, onCloseFeed, onErrorFeed, onMessageFeed, onOpenFeed} from "./actions";
+import {TOrder} from "../../types/data";
 
 export type TWebsocketState = {
-    orders: any[];
+    orders: TOrder[];
     total: number;
     totalToday: number;
     error: string | null;

@@ -75,11 +75,17 @@ export const postRegister = (data: IRegisterData): AppThunk => {
                     refreshToken: res.refreshToken,
                 }
             });
-        } catch (error: any) {
+        } catch (error: unknown) {
+            let message = "Неизвестная ошибка";
+
+            if (error instanceof Error) {
+                message = error.message;
+            }
+
             dispatch({
                 type: POST_REGISTER_FAILED,
                 payload: {
-                    error: error.message || "Неизвестная ошибка"
+                    error: message
                 }
             });
         }

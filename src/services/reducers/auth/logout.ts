@@ -76,11 +76,17 @@ export const postLogout = (data: IRefreshToken): AppThunk => {
             }
             dispatch({type: UNSET_AUTH_TOKENS});
             return res;
-        } catch (error: any) {
+        } catch (error: unknown) {
+            let message = "Неизвестная ошибка";
+
+            if (error instanceof Error) {
+                message = error.message;
+            }
+
             dispatch({
                 type: POST_LOGOUT_FAILED,
                 payload: {
-                    error: error.message || "Неизвестная ошибка"
+                    error: message
                 }
             });
             dispatch({type: UNSET_AUTH_TOKENS});

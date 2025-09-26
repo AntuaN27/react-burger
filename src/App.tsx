@@ -75,7 +75,7 @@ const App = () => {
                     payload: {
                         orderInfo: {
                             ...order,
-                            ingredients: modalIngredients,
+                            orderIngredients: modalIngredients,
                             price: orderTotalPrice,
                         },
                     },
@@ -97,7 +97,7 @@ const App = () => {
                     payload: {
                         orderInfo: {
                             ...order,
-                            ingredients: modalIngredients,
+                            orderIngredients: modalIngredients,
                             price: orderTotalPrice,
                         },
                     },
@@ -185,7 +185,7 @@ const App = () => {
                                 }
                             />
                         )}
-                        {background && modalFeedOrder && modalFeedOrder.ingredients?.length > 0 && (
+                        {background && modalFeedOrder && modalFeedOrder.orderIngredients?.length > 0 && (
                             <Route
                                 path="/feed/:id"
                                 element={
@@ -198,7 +198,7 @@ const App = () => {
                                 }
                             />
                         )}
-                        {background && modalProfileOrder && modalProfileOrder.ingredients?.length > 0 && (
+                        {background && modalProfileOrder && modalProfileOrder.orderIngredients?.length > 0 && (
                             <Route
                                 path="/profile/orders/:id"
                                 element={

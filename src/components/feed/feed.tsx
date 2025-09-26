@@ -3,7 +3,7 @@ import {Order} from "../order/order";
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "../../services/hooks";
 import {webSocketUrl} from "../../utils/variables";
-import {connectFeed} from "../../services/websocket/websocket-feed/actions";
+import {connectFeed, disconnectFeed} from "../../services/websocket/websocket-feed/actions";
 import {getOrders, getTotal, getTotalToday} from "../../services/websocket/websocket-feed/selectors";
 import {TOrder} from "../../services/types/data";
 
@@ -17,6 +17,10 @@ const Feed = () => {
 
     useEffect(() => {
         dispatch(connectFeed(`${webSocketUrl}/orders/all`))
+
+        return () => {
+            dispatch(disconnectFeed());
+        };
     }, [dispatch]);
 
     return (

@@ -80,11 +80,17 @@ export const postLogin = (data: IRegisterData): AppThunk => {
                     }
                 })
             })
-            .catch(error => {
+            .catch((error: unknown) => {
+                let message = "Неизвестная ошибка";
+
+                if (error instanceof Error) {
+                    message = error.message;
+                }
+
                 dispatch({
                     type: POST_LOGIN_FAILED,
                     payload: {
-                        error: error.message || "Неизвестная ошибка"
+                        error: message
                     }
                 });
             });

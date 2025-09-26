@@ -66,11 +66,17 @@ export const postForgotPassword = (email: string): AppThunk => {
                     type: POST_FORGOT_PASSWORD_SUCCESS,
                 })
             })
-            .catch(error => {
+            .catch((error: unknown) => {
+                let message = "Неизвестная ошибка";
+
+                if (error instanceof Error) {
+                    message = error.message;
+                }
+
                 dispatch({
                     type: POST_FORGOT_PASSWORD_FAILED,
                     payload: {
-                        error: error.message || "Неизвестная ошибка"
+                        error: message
                     }
                 });
             });

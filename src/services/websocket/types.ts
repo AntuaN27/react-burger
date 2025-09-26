@@ -1,5 +1,7 @@
+import {TOrder} from "../types/data";
+
 export type TWebSocket = {
-    orders: any[];
+    orders: TOrder[];
     total: number;
     totalToday: number;
 };

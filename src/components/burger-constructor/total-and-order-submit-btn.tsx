@@ -13,7 +13,7 @@ import {TIngredient} from "../../services/types/data";
 const TotalAndOrderSubmitBtn = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const modalOrder = useSelector(store => store.currentOrder.currentOrder);
+    const modalOrder = useSelector(store => store.currentOrder?.currentOrder);
     const burgerIngredients = useSelector(store => store.burgerConstructor.burger_ingredients);
     const burgerIngredientsIds = burgerIngredients.map((ingredient: TIngredient) => ingredient._id);
     const total = useSelector(getPrice);
@@ -52,7 +52,7 @@ const TotalAndOrderSubmitBtn = () => {
             >
                 Оформить заказ
             </Button>
-            {modalOrder.length > 0 && (
+            {modalOrder && (
                 <Modal
                     title={""}
                     onClose={handleCloseModal}

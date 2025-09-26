@@ -84,11 +84,17 @@ export const postRefreshToken = (data: IRefreshToken): AppThunk => {
                 }
             });
             return res;
-        } catch (error: any) {
+        } catch (error: unknown) {
+            let message = "Неизвестная ошибка";
+
+            if (error instanceof Error) {
+                message = error.message;
+            }
+
             dispatch({
                 type: POST_REFRESH_TOKEN_FAILED,
                 payload: {
-                    error: error.message || "Неизвестная ошибка"
+                    error: message
                 }
             });
             return await Promise.reject(error);

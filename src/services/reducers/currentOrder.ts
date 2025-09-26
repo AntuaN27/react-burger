@@ -16,13 +16,13 @@ import {
 import {TCurrentOrderActions} from "../actions/currentOrder";
 import {CLEAR_CART} from "../constants/burgerСonstructor";
 import {createRequest, request} from "../../utils/requestUtils";
-import {TCurrentOrder, TOrderInfo} from "../types/data";
+import {TCurrentOrder, TOrderDetails, TOrderInfo} from "../types/data";
 import {AppDispatch, AppThunk, RootState} from "../types";
 
 type TCurrentOrderState = {
-    currentOrder: TCurrentOrder,
-    openOrderFeed: any,
-    openOrderProfile: any,
+    currentOrder: TCurrentOrder | null,
+    openOrderFeed: TOrderDetails | null,
+    openOrderProfile: TOrderDetails | null,
     postOrderRequest: boolean,
     postOrderFailed: boolean,
     getOrderRequest: boolean,
@@ -30,7 +30,7 @@ type TCurrentOrderState = {
 }
 
 const initialState: TCurrentOrderState = {
-    currentOrder: [],
+    currentOrder: null,
     openOrderFeed: null,
     openOrderProfile: null,
     postOrderRequest: false,
@@ -44,13 +44,13 @@ export const currentOrder = (state = initialState, action: TCurrentOrderActions)
         case SET_MODAL_ORDER: {
             return {
                 ...state,
-                currentOrder: [action.payload.order],
+                currentOrder: action.payload.order,
             };
         }
         case UNSET_MODAL_ORDER: {
             return {
                 ...state,
-                currentOrder: [],
+                currentOrder: null,
             };
         }
         case POST_ORDER_REQUEST: {
@@ -157,18 +157,24 @@ export const postOrder = ({ ingredients }: IPostOrderParams): AppThunk => {
                 dispatch({
                     type: SET_MODAL_ORDER,
                     payload: {
-                        order: res.order,
+                        order: res,
                     }
                 });
                 dispatch({
                     type: CLEAR_CART,
                 })
             })
-            .catch(error => {
+            .catch((error: unknown) => {
+                let message = "Неизвестная ошибка";
+
+                if (error instanceof Error) {
+                    message = error.message;
+                }
+
                 dispatch({
                     type: POST_ORDER_FAILED,
                     payload: {
-                        error: error,
+                        error: message,
                     }
                 })
             })

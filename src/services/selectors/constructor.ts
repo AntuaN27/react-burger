@@ -24,7 +24,7 @@ export const getPrice = createSelector(
 export const getIngredientsCounters = createSelector(
     getConstructorItems,
     ({ingredients}) => {
-        const counters : any = {};
+        const counters: Record<string, number> = {};
         ingredients.forEach((ingredient: TIngredient) => {
             if (!counters[ingredient._id]) counters[ingredient._id] = 0;
             if (ingredient.type === "bun") {

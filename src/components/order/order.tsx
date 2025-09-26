@@ -4,7 +4,7 @@ import {SET_FEED_MODAL_ORDER, SET_PROFILE_MODAL_ORDER} from "../../services/cons
 import {useDispatch, useSelector} from "../../services/hooks";
 import {useLocation, useNavigate} from "react-router-dom";
 import React from "react";
-import {TIngredient, TOrder} from "../../services/types/data";
+import {TIngredient, TOrder, TOrderDetails} from "../../services/types/data";
 import {iconsWrapper} from "./icons-wrapper";
 import {getOrderStatus} from "./order-status";
 
@@ -34,14 +34,15 @@ export const Order = ({ orderInfo, event, showStatus = false }: OrderProps) => {
     }, 0);
 
     const handleOpenModal = (orderInfo: TOrder) => {
+        const details: TOrderDetails = {
+            ...orderInfo,
+            orderIngredients: ingredients,
+            price: orderTotalPrice,
+        };
         dispatch({
             type: type,
             payload: {
-                orderInfo: {
-                    ...orderInfo,
-                    ingredients: ingredients,
-                    price: orderTotalPrice,
-                }
+                orderInfo: details
             }
         })
         const path = event === "profile"

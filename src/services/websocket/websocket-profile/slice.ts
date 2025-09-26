@@ -6,9 +6,10 @@ import {
     onMessageProfile,
     onOpenProfile
 } from "./actions";
+import {TOrder} from "../../types/data";
 
 export type TWebsocketState = {
-    orders: any[];
+    orders: TOrder[];
     total: number;
     totalToday: number;
     error: string | null;

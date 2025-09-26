@@ -72,11 +72,17 @@ export const getBurgerIngredients = (): AppThunk => {
                     }
                 })
             })
-            .catch(error => {
+            .catch((error: unknown) => {
+                let message = "Неизвестная ошибка";
+
+                if (error instanceof Error) {
+                    message = error.message;
+                }
+
                 dispatch({
                     type: GET_INGREDIENTS_FAILED,
                     payload: {
-                        error: error
+                        error: message
                     }
                 })
             });

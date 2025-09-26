@@ -14,7 +14,7 @@ export const OpenOrderDetails = ({event}: TOpenOrdersDetailsParams) => {
         event === "feed" ? store.currentOrder?.openOrderFeed : store.currentOrder?.openOrderProfile
     );
 
-    if (!orderInfo || !orderInfo.ingredients) {
+    if (!orderInfo || !orderInfo.orderIngredients) {
       return <p>Загрузка...</p>;
     }
 
@@ -36,7 +36,7 @@ export const OpenOrderDetails = ({event}: TOpenOrdersDetailsParams) => {
                 </p>
             </div>
             <div className={styles.order_content}>
-                {orderInfo.ingredients.map((ingredient: TIngredient, index: number) =>(
+                {orderInfo.orderIngredients.map((ingredient: TIngredient, index: number) =>(
                     <OrderIngredient ingredient={ingredient} key={index} />
                 ))}
             </div>

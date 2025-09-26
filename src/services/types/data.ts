@@ -1,4 +1,27 @@
-export type TCurrentOrder = any;
+export type TOrderOwner = {
+    name: string;
+    email: string;
+    createdAt: string;
+    updatedAt: string;
+};
+
+export type TCreatedOrder = {
+    _id: string;
+    ingredients: TIngredient[];
+    owner: TOrderOwner;
+    status: 'created' | 'pending' | 'done';
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    number: number;
+    price: number;
+};
+
+export type TCurrentOrder = {
+    success: boolean;
+    name: string;
+    order: TCreatedOrder;
+};
 
 export type TIngredient = {
     _id: string;
@@ -29,4 +52,9 @@ export type TOrder = {
 export type TOrderInfo = {
     success: boolean,
     orders: TOrder[],
+};
+
+export type TOrderDetails = Omit<TOrder, 'ingredients'> & {
+    orderIngredients: TIngredient[];
+    price: number;
 };

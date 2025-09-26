@@ -70,11 +70,17 @@ export const postResetPassword = (data: IAuthData): AppThunk => {
             dispatch({
                 type: POST_RESET_PASSWORD_SUCCESS,
             });
-        } catch (error: any) {
+        } catch (error: unknown) {
+            let message = "Неизвестная ошибка";
+
+            if (error instanceof Error) {
+                message = error.message;
+            }
+
             dispatch({
                 type: POST_RESET_PASSWORD_FAILED,
                 payload: {
-                    error: error.message || "Неизвестная ошибка"
+                    error: message
                 }
             });
         }

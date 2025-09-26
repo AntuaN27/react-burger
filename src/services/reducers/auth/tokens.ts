@@ -79,9 +79,15 @@ export const checkAuthTokens = () => {
                 type: AUTH_TOKENS_SUCCESS
             });
 
-        } catch (error: any) {
+        } catch (error: unknown) {
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
+
+            let message = "Неизвестная ошибка";
+
+            if (error instanceof Error) {
+                message = error.message;
+            }
 
             dispatch({
                 type: UNSET_AUTH_TOKENS
@@ -89,7 +95,7 @@ export const checkAuthTokens = () => {
 
             dispatch({
                 type: AUTH_TOKENS_FAILED,
-                payload: error.message || "Не авторизован"
+                payload: message
             });
         }
     }

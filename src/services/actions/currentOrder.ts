@@ -13,7 +13,7 @@ import {
     SET_PROFILE_MODAL_ORDER,
     UNSET_PROFILE_MODAL_ORDER
 } from "../constants/currentOrder";
-import {TCurrentOrder, TOrder} from "../types/data";
+import {TCurrentOrder, TOrderDetails} from "../types/data";
 
 // Типизация экшенов
 export interface ISetModalOrderAction {
@@ -46,14 +46,14 @@ export interface IGetOrderRequestAction {
 export interface IGetOrderFeedSuccessAction {
     readonly type: typeof GET_ORDER_FEED_SUCCESS;
     readonly payload: {
-        orderInfo: TOrder
+        orderInfo: TOrderDetails
     }
 }
 
 export interface IGetOrderProfileSuccessAction {
     readonly type: typeof GET_ORDER_PROFILE_SUCCESS;
     readonly payload: {
-        orderInfo: TOrder
+        orderInfo: TOrderDetails
     }
 }
 
@@ -64,7 +64,7 @@ export interface IGetOrderFailedAction {
 export interface ISetFeedModalOrder {
     readonly type: typeof SET_FEED_MODAL_ORDER;
     readonly payload: {
-        orderInfo: any;
+        orderInfo: TOrderDetails;
     }
 }
 
@@ -76,7 +76,7 @@ export interface IUnsetFeedModalOrder {
 export interface ISetProfileModalOrder {
     readonly type: typeof SET_PROFILE_MODAL_ORDER;
     readonly payload: {
-        orderInfo: any;
+        orderInfo: TOrderDetails;
     }
 }
 
