@@ -1,5 +1,5 @@
 import React from 'react';
-import {useSelector} from "react-redux";
+import {useSelector} from "../../services/hooks";
 import styles from "./ingredient.module.css";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDrag} from "react-dnd";
@@ -13,7 +13,6 @@ interface IIngredientProps {
 
 const Ingredient: React.FC<IIngredientProps> = ({ingredient, openModal}) => {
     const selectedIngredients = useSelector(getIngredientsCounters);
-    // @ts-ignore "sprint5"
     const ingredientCounter = selectedIngredients[ingredient._id]
     const [, dragRef] = useDrag({
         type: "ingredient",

@@ -1,22 +1,30 @@
-import { SET_MODAL_INGREDIENT, UNSET_MODAL_INGREDIENT } from '../actions/currentIngredient';
+import {
+    SET_MODAL_INGREDIENT,
+    UNSET_MODAL_INGREDIENT
+} from "../constants/currentIngredient";
+import {TCurrentIngredientActions} from '../actions/currentIngredient';
+import {TIngredient} from "../types/data";
 
-const initialState = {
-    current_ingredient: [],
+type TCurrentIngredientState = {
+    current_ingredient: TIngredient | null;
 }
 
-// @ts-ignore "sprint5"
-export const currentIngredient = (state = initialState, action) => {
+const initialState: TCurrentIngredientState = {
+    current_ingredient: null,
+}
+
+export const currentIngredient = (state = initialState, action: TCurrentIngredientActions): TCurrentIngredientState => {
     switch (action.type) {
         case SET_MODAL_INGREDIENT: {
             return {
                 ...state,
-                current_ingredient: [action.payload.ingredient],
+                current_ingredient: action.payload.ingredient,
             };
         }
         case UNSET_MODAL_INGREDIENT: {
             return {
                 ...state,
-                current_ingredient: [],
+                current_ingredient: null,
             };
         }
         default: {

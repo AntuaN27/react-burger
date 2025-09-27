@@ -2,17 +2,24 @@ import {
     POST_FORGOT_PASSWORD_REQUEST,
     POST_FORGOT_PASSWORD_SUCCESS,
     POST_FORGOT_PASSWORD_FAILED,
-} from "../../actions/auth/forgotPassword";
+} from "../../constants/auth/forgotPassword";
 import { request } from "../../../utils/requestUtils";
+import {TForgotPasswordActions} from "../../actions/auth/forgotPassword";
+import {AppDispatch, AppThunk} from "../../types";
 
-const initialState = {
+type TForgotPasswordState = {
+    forgotPasswordRequest: boolean,
+    forgotPasswordSuccess: boolean,
+    forgotPasswordFailed: boolean
+};
+
+const initialState: TForgotPasswordState = {
     forgotPasswordRequest: false,
     forgotPasswordSuccess: false,
     forgotPasswordFailed: false,
 }
 
-// @ts-ignore "sprint5"
-export const forgotPassword = (state = initialState, action) => {
+export const forgotPassword = (state = initialState, action: TForgotPasswordActions): TForgotPasswordState => {
     switch (action.type) {
         case POST_FORGOT_PASSWORD_REQUEST: {
             return {
@@ -42,9 +49,8 @@ export const forgotPassword = (state = initialState, action) => {
     }
 }
 
-export const postForgotPassword = (email: string) => {
-    // @ts-ignore "sprint5"
-    return function(dispatch) {
+export const postForgotPassword = (email: string): AppThunk => {
+    return function(dispatch: AppDispatch) {
         dispatch({
             type: POST_FORGOT_PASSWORD_REQUEST
         });
@@ -60,11 +66,17 @@ export const postForgotPassword = (email: string) => {
                     type: POST_FORGOT_PASSWORD_SUCCESS,
                 })
             })
-            .catch(error => {
+            .catch((error: unknown) => {
+                let message = "Неизвестная ошибка";
+
+                if (error instanceof Error) {
+                    message = error.message;
+                }
+
                 dispatch({
                     type: POST_FORGOT_PASSWORD_FAILED,
                     payload: {
-                        error: error.message || "Неизвестная ошибка"
+                        error: message
                     }
                 });
             });

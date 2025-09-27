@@ -1,0 +1,49 @@
+.order_page {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5vh;
+    position: relative;
+}
+
+.order_number {
+    display: flex;
+    justify-content: center;
+}
+
+.order_name {
+    margin-top: 40px;
+}
+
+.order_status {
+    margin-top: 12px;
+    color: #00CCCC;
+}
+
+.content_title {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 60px;
+}
+
+.order_content {
+    display: flex;
+    flex-direction: column;
+    max-height: 304px;
+    margin-top: 24px;
+    gap: 16px;
+    overflow-y: auto;
+}
+
+.order_footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    width: 100%;
+}
+
+.order_price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

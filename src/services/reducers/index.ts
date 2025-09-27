@@ -12,15 +12,17 @@ import {refreshToken} from "./auth/refreshToken";
 import {getUser} from "./profile/getUser";
 import {patchUser} from "./profile/patchUser";
 import {authTokens} from "./auth/tokens";
+import {websocketFeedReducer} from "../websocket/websocket-feed/slice";
+import {websocketProfileReducer} from "../websocket/websocket-profile/slice";
 
 export const rootReducer = combineReducers({
-    burger_ingredients: burgerIngredients,
-    burger_constructor: burgerConstructor,
-    current_ingredient: currentIngredient,
-    current_order: currentOrder,
+    burgerIngredients: burgerIngredients,
+    burgerConstructor: burgerConstructor,
+    currentIngredient: currentIngredient,
+    currentOrder: currentOrder,
     // Блок авторизации
-    forgot_password: forgotPassword,
-    reset_password: resetPassword,
+    forgotPassword: forgotPassword,
+    resetPassword: resetPassword,
     register: register,
     login: login,
     logout: logout,
@@ -29,4 +31,6 @@ export const rootReducer = combineReducers({
     // Блок профиля
     getUser: getUser,
     patchUser: patchUser,
+    websocketFeed: websocketFeedReducer,
+    websocketProfile: websocketProfileReducer,
 });

@@ -4,18 +4,29 @@ import {
     UNSET_AUTH_TOKENS,
     AUTH_TOKENS_SUCCESS,
     AUTH_TOKENS_FAILED,
-} from "../../actions/auth/tokens";
+} from "../../constants/auth/tokens";
 import {getUserRequest} from "../profile/getUser";
+import {TTokensActions} from "../../actions/auth/tokens";
+import {AppDispatch} from "../../types";
 
-const initialState = {
+type TTokensState = {
+    authTokens: {
+        accessToken?: string,
+        refreshToken?: string,
+    },
+    isLoggedIn: boolean,
+    checkAuthTokensRequest: boolean,
+    checkAuthTokensFailed: boolean
+}
+
+const initialState: TTokensState = {
     authTokens: {},
     isLoggedIn: false,
     checkAuthTokensRequest: false,
     checkAuthTokensFailed: false,
 }
 
-// @ts-ignore "sprint5"
-export const authTokens = (state = initialState, action) => {
+export const authTokens = (state = initialState, action: TTokensActions): TTokensState => {
     switch (action.type) {
         case AUTH_TOKENS_REQUEST: {
             return {
@@ -58,20 +69,25 @@ export const authTokens = (state = initialState, action) => {
 }
 
 export const checkAuthTokens = () => {
-    // @ts-ignore "sprint5"
-    return async function(dispatch) {
+    return async function(dispatch: AppDispatch) {
         dispatch({ type: AUTH_TOKENS_REQUEST });
         try {
             // Вызов защищённого авторизацией адреса
-            await dispatch(getUserRequest());
+            dispatch(getUserRequest());
 
             dispatch({
                 type: AUTH_TOKENS_SUCCESS
             });
 
-        } catch (error: any) {
+        } catch (error: unknown) {
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
+
+            let message = "Неизвестная ошибка";
+
+            if (error instanceof Error) {
+                message = error.message;
+            }
 
             dispatch({
                 type: UNSET_AUTH_TOKENS
@@ -79,7 +95,7 @@ export const checkAuthTokens = () => {
 
             dispatch({
                 type: AUTH_TOKENS_FAILED,
-                payload: error.message || "Не авторизован"
+                payload: message
             });
         }
     }

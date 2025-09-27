@@ -2,19 +2,26 @@ import {
     POST_LOGOUT_REQUEST,
     POST_LOGOUT_SUCCESS,
     POST_LOGOUT_FAILED,
-} from "../../actions/auth/logout";
+} from "../../constants/auth/logout";
 import { request } from "../../../utils/requestUtils";
-import {UNSET_AUTH_TOKENS} from "../../actions/auth/tokens";
+import {UNSET_AUTH_TOKENS} from "../../constants/auth/tokens";
 import {IRefreshToken} from "../../../types";
+import {TLogoutActions} from "../../actions/auth/logout";
+import {AppDispatch, AppThunk} from "../../types";
 
-const initialState = {
+type TLogoutState = {
+    logoutRequest: boolean,
+    logoutSuccess: boolean,
+    logoutFailed: boolean
+};
+
+const initialState: TLogoutState = {
     logoutRequest: false,
     logoutSuccess: false,
     logoutFailed: false,
 }
 
-// @ts-ignore "sprint5"
-export const logout = (state = initialState, action) => {
+export const logout = (state = initialState, action: TLogoutActions): TLogoutState => {
     switch (action.type) {
         case POST_LOGOUT_REQUEST: {
             return {
@@ -47,38 +54,42 @@ interface ILogoutResponse {
   success: boolean;
 }
 
-export const postLogout = (data: IRefreshToken) => {
-    // @ts-ignore "sprint5"
-    return function(dispatch) {
+export const postLogout = (data: IRefreshToken): AppThunk => {
+    return async function (dispatch: AppDispatch) {
         dispatch({
             type: POST_LOGOUT_REQUEST
         });
-        return request<ILogoutResponse>("/auth/logout", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        })
-            .then(res => {
-                if (res && res.success) {
-                    localStorage.removeItem("accessToken");
-                    localStorage.removeItem("refreshToken");
-                    dispatch({ type: POST_LOGOUT_SUCCESS });
-                } else {
-                    dispatch({ type: POST_LOGOUT_FAILED });
-                }
-                dispatch({type: UNSET_AUTH_TOKENS});
-                return res;
-            })
-            .catch(error => {
-                dispatch({
-                    type: POST_LOGOUT_FAILED,
-                    payload: {
-                        error: error.message || "Неизвестная ошибка"
-                    }
-                });
-                dispatch({type: UNSET_AUTH_TOKENS});
+        try {
+            const res = await request<ILogoutResponse>("/auth/logout", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
             });
+            if (res && res.success) {
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+                dispatch({type: POST_LOGOUT_SUCCESS});
+            } else {
+                dispatch({type: POST_LOGOUT_FAILED});
+            }
+            dispatch({type: UNSET_AUTH_TOKENS});
+            return res;
+        } catch (error: unknown) {
+            let message = "Неизвестная ошибка";
+
+            if (error instanceof Error) {
+                message = error.message;
+            }
+
+            dispatch({
+                type: POST_LOGOUT_FAILED,
+                payload: {
+                    error: message
+                }
+            });
+            dispatch({type: UNSET_AUTH_TOKENS});
+        }
     };
 };

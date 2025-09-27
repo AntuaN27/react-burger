@@ -16,7 +16,7 @@ const AppHeader = () => {
             <div className={headerStyles.app_header}>
                 <div className={headerStyles.constructor_and_list_controllers}>
                     <HeaderController ComponentIcon={BurgerIcon} text={"Конструктор"} link={"/"} />
-                    <HeaderController ComponentIcon={ListIcon} text={"Лента заказов"} link={"/list_orders"} />
+                    <HeaderController ComponentIcon={ListIcon} text={"Лента заказов"} link={"/feed"} />
                 </div>
                 <button className={headerStyles.logo_btn} onClick={homePage}>
                     <Logo />

@@ -8,7 +8,7 @@ const modalRoot = document.getElementById("react-modals");
 
 interface IModal {
     children: React.ReactNode;
-    title: string;
+    title: React.ReactNode;
     onClose: () => void;
 }
 
@@ -34,9 +34,7 @@ const Modal: React.FC<IModal> = ({ children, title, onClose }) => {
                 <ModalOverlay onClick={onClose} />
                 <div className={styles.modal}>
                     <div className={styles.modal_header}>
-                        <p className="text text_type_main-large">
-                            {title}
-                        </p>
+                        {title}
                         <button className={styles.close_btn} onClick={onClose}>
                             <CloseIcon type="primary" />
                         </button>

@@ -3,7 +3,7 @@ import {InputField} from "./common-page-elements";
 import commonStyles from "./common-page-elements.module.css";
 import {useNavigate} from "react-router-dom";
 import {postForgotPassword} from "../../services/reducers/auth/forgotPassword";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../services/hooks";
 import React, {useEffect, useState} from "react";
 import {emailRegex} from "../../utils/variables";
 
@@ -12,8 +12,7 @@ const ForgotPasswordPage = () => {
     const dispatch = useDispatch();
     const [email, setEmail] = useState("");
     const { forgotPasswordSuccess } = useSelector(
-        // @ts-ignore "sprint5"
-        state => state.forgot_password
+        state => state.forgotPassword
     );
 
     const loginPage = () => {
@@ -25,7 +24,6 @@ const ForgotPasswordPage = () => {
             alert("Введите корректный e-mail!");
             return;
         }
-        // @ts-ignore "sprint5"
         dispatch(postForgotPassword(email))
     }
 

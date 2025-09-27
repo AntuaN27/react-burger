@@ -3,18 +3,25 @@ import {
     POST_RESET_PASSWORD_SUCCESS,
     POST_RESET_PASSWORD_FAILED,
     RESET_RESET_PASSWORD,
-} from "../../actions/auth/resetPassword";
+} from "../../constants/auth/resetPassword";
 import { request } from "../../../utils/requestUtils";
 import {IAuthData} from "../../../types";
+import {TResetPasswordActions} from "../../actions/auth/resetPassword";
+import {AppDispatch, AppThunk} from "../../types";
 
-const initialState = {
+type TResetPasswordState = {
+    resetPasswordRequest: boolean,
+    resetPasswordSuccess: boolean,
+    resetPasswordFailed: boolean
+};
+
+const initialState: TResetPasswordState = {
     resetPasswordRequest: false,
     resetPasswordSuccess: false,
     resetPasswordFailed: false,
 }
 
-// @ts-ignore "sprint5"
-export const resetPassword = (state = initialState, action) => {
+export const resetPassword = (state = initialState, action: TResetPasswordActions): TResetPasswordState => {
     switch (action.type) {
         case POST_RESET_PASSWORD_REQUEST: {
             return {
@@ -46,32 +53,36 @@ export const resetPassword = (state = initialState, action) => {
     }
 }
 
-export const postResetPassword = (data: IAuthData) => {
-    // @ts-ignore "sprint5"
-    return function(dispatch) {
+export const postResetPassword = (data: IAuthData): AppThunk => {
+    return async function (dispatch: AppDispatch) {
         dispatch({
             type: POST_RESET_PASSWORD_REQUEST
         });
-        return request("/password-reset/reset", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-            body: JSON.stringify(data)
-        })
-            .then(res => {
-                dispatch({
-                    type: POST_RESET_PASSWORD_SUCCESS,
-                })
-            })
-            .catch(error => {
-                dispatch({
-                    type: POST_RESET_PASSWORD_FAILED,
-                    payload: {
-                        error: error.message || "Неизвестная ошибка"
-                    }
-                });
+        try {
+             await request("/password-reset/reset", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                },
+                body: JSON.stringify(data)
             });
+            dispatch({
+                type: POST_RESET_PASSWORD_SUCCESS,
+            });
+        } catch (error: unknown) {
+            let message = "Неизвестная ошибка";
+
+            if (error instanceof Error) {
+                message = error.message;
+            }
+
+            dispatch({
+                type: POST_RESET_PASSWORD_FAILED,
+                payload: {
+                    error: message
+                }
+            });
+        }
     };
 };

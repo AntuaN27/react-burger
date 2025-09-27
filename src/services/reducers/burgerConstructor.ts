@@ -3,19 +3,19 @@ import {
     REMOVE_CONSTRUCTOR_INGREDIENT,
     MOVE_CONSTRUCTOR_INGREDIENT,
     CLEAR_CART,
-} from '../actions/burgerСonstructor';
-import {IIngredient} from "../../types";
+} from '../constants/burgerСonstructor';
+import {TIngredient} from "../types/data";
+import {TBurgerConstructorActions} from "../actions/burgerСonstructor";
 
-interface IInitialState {
-    burger_ingredients: IIngredient[]
-}
+type TBurgerConstructorState = {
+    burger_ingredients: Array<TIngredient>,
+};
 
-const initialState = {
+const initialState: TBurgerConstructorState = {
     burger_ingredients: [],
 }
 
-// @ts-ignore "sprint5"
-export const burgerConstructor = (state: IInitialState = initialState, action) => {
+export const burgerConstructor = (state = initialState, action: TBurgerConstructorActions): TBurgerConstructorState => {
     switch (action.type) {
         case ADD_CONSTRUCTOR_INGREDIENT: {
             return {
@@ -29,12 +29,12 @@ export const burgerConstructor = (state: IInitialState = initialState, action) =
         case REMOVE_CONSTRUCTOR_INGREDIENT: {
             return {
                 ...state,
-                burger_ingredients: state.burger_ingredients.filter(ingredient => ingredient.uuid !== action.payload.ingredient_uuid)
+                burger_ingredients: state.burger_ingredients.filter((ingredient: TIngredient) => ingredient.uuid !== action.payload.ingredient_uuid)
             };
         }
         case MOVE_CONSTRUCTOR_INGREDIENT: {
-            const fillings = state.burger_ingredients.filter(i => i.type !== 'bun');
-            const buns = state.burger_ingredients.filter(i => i.type === 'bun');
+            const fillings = state.burger_ingredients.filter((ingredient: TIngredient) => ingredient.type !== 'bun');
+            const buns = state.burger_ingredients.filter((ingredient: TIngredient) => ingredient.type === 'bun');
 
             const newFillings = [...fillings];
             const [moved] = newFillings.splice(action.payload.fromIndex, 1);
@@ -49,7 +49,6 @@ export const burgerConstructor = (state: IInitialState = initialState, action) =
             return {
                 ...state,
                 burger_ingredients: [],
-                count_ingredients: {},
             }
         }
         default: {

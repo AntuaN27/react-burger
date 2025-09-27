@@ -3,7 +3,7 @@ import {InputField} from "./common-page-elements";
 import commonStyles from "./common-page-elements.module.css";
 import {useLocation, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../services/hooks";
 import {postLogin} from "../../services/reducers/auth/login";
 import {IRegisterData} from "../../types";
 
@@ -14,7 +14,6 @@ const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { authTokens } = useSelector(store =>
-        // @ts-ignore "sprint5"
         store.authTokens
     );
     const redirectPath = location.state?.from?.pathname || "/";
@@ -35,7 +34,6 @@ const LoginPage = () => {
             email: email,
             password: password
         };
-        // @ts-ignore "sprint5"
         dispatch(postLogin(data));
     }
 

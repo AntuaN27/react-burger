@@ -1,12 +1,13 @@
 import React, {useCallback, useEffect, useMemo, useRef} from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../services/hooks";
 import styles from './form-ingredient.module.css';
 import IngredientDetails from "../modal/ingredient-details";
 import Modal from '../modal/modal';
 import {IngredientsCategory} from "./ingredients-category";
-import {SET_MODAL_INGREDIENT, UNSET_MODAL_INGREDIENT} from "../../services/actions/currentIngredient";
+import {SET_MODAL_INGREDIENT, UNSET_MODAL_INGREDIENT} from "../../services/constants/currentIngredient";
 import {useLocation, useNavigate} from "react-router-dom";
 import {IIngredient, TabType} from "../../types";
+import {TIngredient} from "../../services/types/data";
 
 interface IFormIngredients {
     bunRef: React.RefObject<HTMLDivElement | null>;
@@ -19,10 +20,8 @@ const FormIngredients: React.FC<IFormIngredients> = ({ bunRef, sauceRef, mainRef
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    // @ts-ignore "sprint5"
-    const modalIngredient = useSelector(store => store.current_ingredient.current_ingredient);
-    // @ts-ignore "sprint5"
-    const ingredients = useSelector(store => store.burger_ingredients.ingredients);
+    const modalIngredient: IIngredient | null = useSelector(store => store.currentIngredient.current_ingredient);
+    const ingredients = useSelector(store => store.burgerIngredients.ingredients);
     const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
     const handleScroll = useCallback(() => {
@@ -67,18 +66,15 @@ const FormIngredients: React.FC<IFormIngredients> = ({ bunRef, sauceRef, mainRef
     };
 
     const buns = useMemo(() =>
-        // @ts-ignore "sprint5"
-        ingredients.filter(ingredient => ingredient.type === "bun"),
+        ingredients.filter((ingredient: TIngredient) => ingredient.type === "bun"),
         [ingredients]
     );
     const sauce = useMemo(() =>
-        // @ts-ignore "sprint5"
-        ingredients.filter(ingredient => ingredient.type === "sauce"),
+        ingredients.filter((ingredient: TIngredient) => ingredient.type === "sauce"),
         [ingredients]
     );
     const main = useMemo(() =>
-        // @ts-ignore "sprint5"
-        ingredients.filter(ingredient => ingredient.type === "main"),
+        ingredients.filter((ingredient: TIngredient) => ingredient.type === "main"),
         [ingredients]
     );
 
@@ -88,12 +84,12 @@ const FormIngredients: React.FC<IFormIngredients> = ({ bunRef, sauceRef, mainRef
             <IngredientsCategory name={"Соусы"} ingredients={sauce} innerRef={sauceRef} handleOpenModal={handleOpenModal} />
             <IngredientsCategory name={"Начинки"} ingredients={main} innerRef={mainRef} handleOpenModal={handleOpenModal} />
 
-            {modalIngredient.length > 0 && (
+            {modalIngredient && (
                 <Modal
-                    title={"Детали ингредиента"}
+                    title={<p className="text text_type_main-large">Детали ингредиента</p>}
                     onClose={handleCloseModal}
                 >
-                    <IngredientDetails ingredient={modalIngredient[0]} />
+                    <IngredientDetails ingredient={modalIngredient} />
                 </Modal>
             )}
         </div>

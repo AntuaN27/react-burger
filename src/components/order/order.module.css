@@ -1,0 +1,87 @@
+.order {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 24px;
+    gap: 24px;
+    background: #1C1C21;
+    /*border: 2px dashed #4C4CFF;*/
+    border-radius: 40px;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.burger_name {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.status {
+    color: #00CCCC;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer_icons {
+    display: flex;
+}
+
+.order_icon_wrapper {
+    height: 68px;
+    width: 68px;
+    border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(135deg, #801AB2, #4C4CFF);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: -16px; /* перекрытие */
+    position: relative;
+}
+
+.order_icon {
+    height: 64px;
+    width: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #131316;
+}
+
+.order_last_icon {
+    height: 64px;
+    width: 64px;
+    filter: brightness(0.6); /* затемнение */
+    border-radius: 50%;
+    object-fit: cover;
+    background: #131316;
+}
+
+.order_last_icon_count {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    width: 50%;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    pointer-events: none;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

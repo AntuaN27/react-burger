@@ -1,52 +1,129 @@
 import {
+    GET_ORDER_FAILED,
+    GET_ORDER_FEED_SUCCESS,
+    GET_ORDER_PROFILE_SUCCESS,
+    GET_ORDER_REQUEST,
+    POST_ORDER_FAILED,
     POST_ORDER_REQUEST,
     POST_ORDER_SUCCESS,
-    POST_ORDER_FAILED,
+    SET_FEED_MODAL_ORDER,
     SET_MODAL_ORDER,
+    SET_PROFILE_MODAL_ORDER,
+    UNSET_FEED_MODAL_ORDER,
     UNSET_MODAL_ORDER,
-} from "../actions/currentOrder";
-import { CLEAR_CART } from "../actions/burgerСonstructor";
-import {createRequest} from "../../utils/requestUtils";
+    UNSET_PROFILE_MODAL_ORDER,
+} from "../constants/currentOrder";
+import {TCurrentOrderActions} from "../actions/currentOrder";
+import {CLEAR_CART} from "../constants/burgerСonstructor";
+import {createRequest, request} from "../../utils/requestUtils";
+import {TCurrentOrder, TOrderDetails, TOrderInfo} from "../types/data";
+import {AppDispatch, AppThunk, RootState} from "../types";
 
-const initialState = {
-    current_order: [],
-    orderRequest: false,
-    orderFailed: false,
+type TCurrentOrderState = {
+    currentOrder: TCurrentOrder | null,
+    openOrderFeed: TOrderDetails | null,
+    openOrderProfile: TOrderDetails | null,
+    postOrderRequest: boolean,
+    postOrderFailed: boolean,
+    getOrderRequest: boolean,
+    getOrderFailed: boolean,
 }
 
-// @ts-ignore "sprint5"
-export const currentOrder = (state = initialState, action) => {
+const initialState: TCurrentOrderState = {
+    currentOrder: null,
+    openOrderFeed: null,
+    openOrderProfile: null,
+    postOrderRequest: false,
+    postOrderFailed: false,
+    getOrderRequest: false,
+    getOrderFailed: false,
+}
+
+export const currentOrder = (state = initialState, action: TCurrentOrderActions): TCurrentOrderState => {
     switch (action.type) {
         case SET_MODAL_ORDER: {
             return {
                 ...state,
-                current_order: [action.payload.order],
+                currentOrder: action.payload.order,
             };
         }
         case UNSET_MODAL_ORDER: {
             return {
                 ...state,
-                current_order: [],
+                currentOrder: null,
             };
         }
         case POST_ORDER_REQUEST: {
             return {
                 ...state,
-                orderRequest: true,
+                postOrderRequest: true,
             }
         }
         case POST_ORDER_SUCCESS: {
             return {
                 ...state,
-                orderRequest: false,
-                orderFailed: false,
+                postOrderRequest: false,
+                postOrderFailed: false,
             }
         }
         case POST_ORDER_FAILED: {
             return {
                 ...state,
-                orderRequest: false,
-                orderFailed: true,
+                postOrderRequest: false,
+                postOrderFailed: true,
+            }
+        }
+        case SET_FEED_MODAL_ORDER: {
+            return {
+                ...state,
+                openOrderFeed: action.payload.orderInfo,
+            }
+        }
+        case UNSET_FEED_MODAL_ORDER: {
+            return {
+                ...state,
+                openOrderFeed: null
+            }
+        }
+        case SET_PROFILE_MODAL_ORDER: {
+            return {
+                ...state,
+                openOrderProfile: action.payload.orderInfo,
+            }
+        }
+        case UNSET_PROFILE_MODAL_ORDER: {
+            return {
+                ...state,
+                openOrderProfile: null
+            }
+        }
+        case GET_ORDER_REQUEST: {
+            return {
+                ...state,
+                getOrderRequest: true,
+            }
+        }
+        case GET_ORDER_FEED_SUCCESS: {
+            return {
+                ...state,
+                openOrderFeed: action.payload.orderInfo,
+                getOrderRequest: false,
+                getOrderFailed: false,
+            }
+        }
+        case GET_ORDER_PROFILE_SUCCESS: {
+            return {
+                ...state,
+                openOrderProfile: action.payload.orderInfo,
+                getOrderRequest: false,
+                getOrderFailed: false,
+            }
+        }
+        case GET_ORDER_FAILED: {
+            return {
+                ...state,
+                getOrderRequest: false,
+                getOrderFailed: true,
             }
         }
         default: {
@@ -59,9 +136,8 @@ interface IPostOrderParams {
   ingredients: string[];
 }
 
-export const postOrder = ({ ingredients }: IPostOrderParams) => {
-    // @ts-ignore "sprint5"
-    return function(dispatch) {
+export const postOrder = ({ ingredients }: IPostOrderParams): AppThunk => {
+    return function(dispatch: AppDispatch) {
         const request = createRequest(dispatch);
         dispatch({
             type: POST_ORDER_REQUEST,
@@ -81,18 +157,24 @@ export const postOrder = ({ ingredients }: IPostOrderParams) => {
                 dispatch({
                     type: SET_MODAL_ORDER,
                     payload: {
-                        order: res.order,
+                        order: res,
                     }
                 });
                 dispatch({
                     type: CLEAR_CART,
                 })
             })
-            .catch(error => {
+            .catch((error: unknown) => {
+                let message = "Неизвестная ошибка";
+
+                if (error instanceof Error) {
+                    message = error.message;
+                }
+
                 dispatch({
                     type: POST_ORDER_FAILED,
                     payload: {
-                        error: error,
+                        error: message,
                     }
                 })
             })
@@ -105,15 +187,40 @@ interface IOrderValidation {
 
 // Решил оставить валидацию несмотря на проверку disabled у кнопки, так как это свойство можно вручную отключить и сломать приложение
 export const orderValidation = ({ burgerIngredientsIds }: IOrderValidation) => {
-    // @ts-ignore "sprint5"
-    return function(dispatch, getState) {
+    return function(dispatch: AppDispatch, getState: () => RootState) {
         const state = getState();
-        const burgerIngredients = state.burger_constructor.burger_ingredients;
-        // @ts-ignore "sprint5"
-        if (!burgerIngredients.length > 0) {
+        const burgerIngredients = state.burgerConstructor.burger_ingredients;
+        if (burgerIngredients.length === 0) {
             alert("Выберите, пожалуйста, хотя бы 1 ингредиент");
         } else {
             dispatch(postOrder({ ingredients: burgerIngredientsIds }))
+        }
+    }
+}
+
+export const findOrderById = (orderId: number, event: string): AppThunk<Promise<TOrderInfo>> => {
+    return async function (dispatch: AppDispatch) {
+        dispatch({ type: GET_ORDER_REQUEST });
+        try {
+            const res: any = await request(`/orders/${orderId}`);
+            if (event === "feed") {
+                dispatch({
+                    type: GET_ORDER_FEED_SUCCESS,
+                    payload: { orderInfo: res }
+                });
+            } else if (event === "profile") {
+                dispatch({
+                    type: GET_ORDER_PROFILE_SUCCESS,
+                    payload: { orderInfo: res }
+                });
+            }
+            return res;
+        } catch (error) {
+            dispatch({
+                type: GET_ORDER_FAILED,
+                payload: { error }
+            });
+            throw error;
         }
     }
 }
