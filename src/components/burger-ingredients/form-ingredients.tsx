@@ -86,6 +86,7 @@ const FormIngredients: React.FC<IFormIngredients> = ({ bunRef, sauceRef, mainRef
 
             {modalIngredient && (
                 <Modal
+                    data-test="ingredient-modal"
                     title={<p className="text text_type_main-large">Детали ингредиента</p>}
                     onClose={handleCloseModal}
                 >

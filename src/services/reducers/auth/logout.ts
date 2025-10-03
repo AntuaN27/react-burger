@@ -15,7 +15,7 @@ type TLogoutState = {
     logoutFailed: boolean
 };
 
-const initialState: TLogoutState = {
+export const initialState: TLogoutState = {
     logoutRequest: false,
     logoutSuccess: false,
     logoutFailed: false,

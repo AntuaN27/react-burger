@@ -56,6 +56,7 @@ const BurgerConstructor = () => {
 
     return (
         <div
+            data-test="burger-constructor"
             className={styles.burger_constructor}
             ref={el => {dropTarget(el)}}
             style={{ borderColor }}

@@ -9,7 +9,7 @@ export type TWebsocketState = {
     error: string | null;
 }
 
-const initialState: TWebsocketState = {
+export const initialState: TWebsocketState = {
     orders: [],
     total: 0,
     totalToday: 0,

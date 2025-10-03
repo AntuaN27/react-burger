@@ -11,7 +11,7 @@ type TBurgerConstructorState = {
     burger_ingredients: Array<TIngredient>,
 };
 
-const initialState: TBurgerConstructorState = {
+export const initialState: TBurgerConstructorState = {
     burger_ingredients: [],
 }
 

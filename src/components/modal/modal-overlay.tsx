@@ -7,7 +7,11 @@ interface IModalOverlay {
 
 const ModalOverlay: React.FC<IModalOverlay> = ({ onClick }) => {
     return (
-        <div className={styles.overlay} onClick={onClick}></div>
+        <div
+            data-test="modal-overlay"
+            className={styles.overlay}
+            onClick={onClick}
+        ></div>
     )
 }
 

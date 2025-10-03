@@ -14,7 +14,7 @@ type TRegisterState = {
     registerFailed: boolean
 };
 
-const initialState: TRegisterState = {
+export const initialState: TRegisterState = {
     registerRequest: false,
     registerFailed: false,
 }

@@ -44,6 +44,7 @@ const TotalAndOrderSubmitBtn = () => {
                 <CurrencyIcon type="primary" />
             </div>
             <Button
+                data-test="submit-button"
                 htmlType="button"
                 type="primary"
                 size="large"
@@ -54,6 +55,7 @@ const TotalAndOrderSubmitBtn = () => {
             </Button>
             {modalOrder && (
                 <Modal
+                    data-test="order-modal"
                     title={""}
                     onClose={handleCloseModal}
                 >

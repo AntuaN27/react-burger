@@ -60,6 +60,7 @@ const LoginPage = () => {
                     Вход
                 </div>
                 <InputField
+                    data-test="login-email"
                     type={"email"}
                     value={email}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
@@ -69,6 +70,7 @@ const LoginPage = () => {
                     autoComplete="username"
                 />
                 <InputField
+                    data-test={"login-password"}
                     type={"password"}
                     value={password}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
@@ -77,7 +79,12 @@ const LoginPage = () => {
                     placeholder={"Пароль"}
                     autoComplete="current-password"
                 />
-                <Button htmlType="submit" type="primary" size="large">
+                <Button
+                    data-test="login-submit"
+                    htmlType="submit"
+                    type="primary"
+                    size="large"
+                >
                   Войти
                 </Button>
             </form>

@@ -19,7 +19,7 @@ type TTokensState = {
     checkAuthTokensFailed: boolean
 }
 
-const initialState: TTokensState = {
+export const initialState: TTokensState = {
     authTokens: {},
     isLoggedIn: false,
     checkAuthTokensRequest: false,
