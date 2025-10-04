@@ -35,4 +35,20 @@
 //     }
 //   }
 // }
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      login(email: string, password: string): Chainable<void>;
+    }
+  }
+}
+
+Cypress.Commands.add('login', (email: string, password: string) => {
+  cy.get('[data-test="login-email"]').type(email);
+  cy.get('[data-test="login-password"]').type(password);
+  cy.get('[data-test="login-submit"]').click();
+  cy.wait('@login');
+});
+
 export {};
