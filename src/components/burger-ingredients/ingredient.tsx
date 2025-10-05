@@ -20,7 +20,9 @@ const Ingredient: React.FC<IIngredientProps> = ({ingredient, openModal}) => {
     })
 
     return (
-        <div ref={el => {
+        <div
+            data-test={`ingredient-${ingredient._id}`}
+            ref={el => {
             dragRef(el)
         }}>
             {ingredientCounter > 0 && (

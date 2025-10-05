@@ -14,7 +14,7 @@ type TGetUserState = {
     userInfoFailed: boolean
 }
 
-const initialState: TGetUserState = {
+export const initialState: TGetUserState = {
     userInfo: {
         name: "",
         email: "",

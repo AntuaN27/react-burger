@@ -29,7 +29,7 @@ type TCurrentOrderState = {
     getOrderFailed: boolean,
 }
 
-const initialState: TCurrentOrderState = {
+export const initialState: TCurrentOrderState = {
     currentOrder: null,
     openOrderFeed: null,
     openOrderProfile: null,

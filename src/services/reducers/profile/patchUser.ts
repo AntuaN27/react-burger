@@ -9,11 +9,16 @@ import {TPatchUserActions} from "../../actions/profile/patchUser";
 import {AppDispatch, AppThunk} from "../../types";
 
 type TPatchUserState = {
+    userInfo: IUserInfo,
     patchUserRequest: boolean,
     patchUserFailed: boolean
 }
 
-const initialState: TPatchUserState = {
+export const initialState: TPatchUserState = {
+    userInfo: {
+        name: "",
+        email: "",
+    },
     patchUserRequest: false,
     patchUserFailed: false,
 }
@@ -29,6 +34,7 @@ export const patchUser = (state = initialState, action: TPatchUserActions): TPat
         case PATCH_USER_SUCCESS: {
             return {
                 ...state,
+                userInfo: action.payload.userInfo,
                 patchUserRequest: false,
                 patchUserFailed: false,
             };

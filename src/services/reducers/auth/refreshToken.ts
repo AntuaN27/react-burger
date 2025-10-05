@@ -14,7 +14,7 @@ type TRefreshTokenState = {
     refreshTokenFailed: boolean
 }
 
-const initialState: TRefreshTokenState = {
+export const initialState: TRefreshTokenState = {
     refreshTokenRequest: false,
     refreshTokenFailed: false,
 }

@@ -12,7 +12,7 @@ interface IModal {
     onClose: () => void;
 }
 
-const Modal: React.FC<IModal> = ({ children, title, onClose }) => {
+const Modal: React.FC<IModal> = ({ children, title, onClose, ...props }) => {
     useEffect(() => {
         const handleEsc = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
@@ -32,10 +32,14 @@ const Modal: React.FC<IModal> = ({ children, title, onClose }) => {
         (
             <>
                 <ModalOverlay onClick={onClose} />
-                <div className={styles.modal}>
+                <div className={styles.modal} {...props}>
                     <div className={styles.modal_header}>
                         {title}
-                        <button className={styles.close_btn} onClick={onClose}>
+                        <button
+                            data-test="close-modal"
+                            className={styles.close_btn}
+                            onClick={onClose}
+                        >
                             <CloseIcon type="primary" />
                         </button>
                     </div>
