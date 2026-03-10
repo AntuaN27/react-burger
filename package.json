@@ -1,5 +1,6 @@
 {
   "name": "react-burger",
+  "homepage": "https://antuan27.github.io/react-burger",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

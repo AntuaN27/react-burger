@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom"; // Правка совместиомсти с github pages
+import { HashRouter } from "react-router-dom";
 import './index.module.css';
 import App from './App'
 import {store} from "./services/store";
@@ -10,9 +11,9 @@ const root = ReactDOM.createRoot(document.querySelector('#root') as HTMLElement)
 root.render(
     <React.StrictMode>
         <Provider store={store}>
-            <BrowserRouter>
+            <HashRouter>
               <App />
-            </BrowserRouter>
+            </HashRouter>
         </Provider>
     </React.StrictMode>
 )
